@@ -18,9 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_signbit_HPP
-#define _gcem_signbit_HPP
-
+#pragma once
 /**
  * Compile-time sign bit detection function
  *
@@ -40,5 +38,3 @@ noexcept
     return GCEM_SIGNBIT(x);
 #endif
 }
-
-#endif

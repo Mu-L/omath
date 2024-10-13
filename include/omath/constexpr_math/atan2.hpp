@@ -22,8 +22,8 @@
  * compile-time two-argument arctangent function
  */
 
-#ifndef _gcem_atan2_HPP
-#define _gcem_atan2_HPP
+#pragma once
+
 
 namespace internal
 {
@@ -49,7 +49,7 @@ noexcept
             //
             x < T(0) ? \
                 y < T(0) ? \
-                    atan(y/x) - T(GCEM_PI) : 
+                    atan(y/x) - T(GCEM_PI) :
                     atan(y/x) + T(GCEM_PI) :
             //
                 atan(y/x) );
@@ -84,5 +84,3 @@ noexcept
 {
     return internal::atan2_type_check(x,y);
 }
-
-#endif

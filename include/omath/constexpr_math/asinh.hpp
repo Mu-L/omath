@@ -22,8 +22,7 @@
  * compile-time inverse hyperbolic sine function
  */
 
-#ifndef _gcem_asinh_HPP
-#define _gcem_asinh_HPP
+#pragma once
 
 namespace internal
 {
@@ -61,6 +60,3 @@ noexcept
 {
     return internal::asinh_compute( static_cast<return_t<T>>(x) );
 }
-
-
-#endif

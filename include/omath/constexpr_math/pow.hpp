@@ -22,8 +22,7 @@
  * compile-time power function
  */
 
-#ifndef _gcem_pow_HPP
-#define _gcem_pow_HPP
+#pragma once
 
 namespace internal
 {
@@ -78,5 +77,3 @@ noexcept
 {
     return internal::pow_check(base,exp_term);
 }
-
-#endif

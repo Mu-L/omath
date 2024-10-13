@@ -17,9 +17,8 @@
   ##   limitations under the License.
   ##
   ################################################################################*/
+#pragma once
 
-#ifndef _gcem_floor_HPP
-#define _gcem_floor_HPP
 
 namespace internal
 {
@@ -126,5 +125,3 @@ noexcept
 {
     return internal::floor_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

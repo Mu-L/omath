@@ -22,8 +22,7 @@
  * compile-time error function
  */
 
-#ifndef _gcem_erf_HPP
-#define _gcem_erf_HPP
+#pragma once
 
 namespace internal
 {
@@ -187,5 +186,3 @@ noexcept
 {
     return internal::erf_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

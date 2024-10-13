@@ -22,8 +22,7 @@
  * compile-time cosine function using tan(x/2)
  */
 
-#ifndef _gcem_cos_HPP
-#define _gcem_cos_HPP
+#pragma once
 
 namespace internal
 {
@@ -79,5 +78,3 @@ noexcept
 {
     return internal::cos_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

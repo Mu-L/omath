@@ -22,8 +22,7 @@
  * log multivariate gamma function
  */
 
-#ifndef _gcem_lmgamma_HPP
-#define _gcem_lmgamma_HPP
+#pragma once
 
 namespace internal
 {
@@ -69,5 +68,3 @@ noexcept
 {
     return internal::lmgamma_recur(static_cast<return_t<T1>>(a),p);
 }
-
-#endif

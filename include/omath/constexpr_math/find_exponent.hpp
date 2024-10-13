@@ -22,8 +22,7 @@
  * compile-time find_exponent function
  */
 
-#ifndef _gcem_find_exponent_HPP
-#define _gcem_find_exponent_HPP
+#pragma once
 
 namespace internal
 {
@@ -53,5 +52,3 @@ noexcept
 }
 
 }
-
-#endif

@@ -22,8 +22,7 @@
  * compile-time natural logarithm(x+1) function
  */
 
-#ifndef _gcem_log1p_HPP
-#define _gcem_log1p_HPP
+#pragma once
 
 namespace internal
 {
@@ -76,5 +75,3 @@ noexcept
 {
     return internal::log1p_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

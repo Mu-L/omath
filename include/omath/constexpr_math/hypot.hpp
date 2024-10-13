@@ -24,8 +24,7 @@
 
 // see: https://en.wikipedia.org/wiki/Pythagorean_addition
 
-#ifndef _gcem_hypot_HPP
-#define _gcem_hypot_HPP
+#pragma once
 
 namespace internal
 {
@@ -86,5 +85,3 @@ noexcept
 {
     return internal::hypot_type_check(x,y);
 }
-
-#endif

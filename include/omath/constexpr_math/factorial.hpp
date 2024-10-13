@@ -22,8 +22,7 @@
  * compile-time factorial function
  */
 
-#ifndef _gcem_factorial_HPP
-#define _gcem_factorial_HPP
+#pragma once
 
 namespace internal
 {
@@ -96,5 +95,3 @@ noexcept
 {
     return internal::factorial_recur(x);
 }
-
-#endif

@@ -24,8 +24,8 @@
  * see eq. 5.4.8 in Numerical Recipes
  */
 
-#ifndef _gcem_sin_HPP
-#define _gcem_sin_HPP
+#pragma once
+
 
 namespace internal
 {
@@ -81,5 +81,3 @@ noexcept
 {
     return internal::sin_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

@@ -22,8 +22,7 @@
  * compile-time check if integer is even
  */
 
-#ifndef _gcem_is_even_HPP
-#define _gcem_is_even_HPP
+#pragma once
 
 namespace internal
 {
@@ -37,5 +36,3 @@ noexcept
 }
 
 }
-
-#endif

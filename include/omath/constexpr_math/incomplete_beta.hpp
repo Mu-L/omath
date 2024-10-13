@@ -24,8 +24,7 @@
  * see eq. 18.5.17a in the Handbook of Continued Fractions for Special Functions
  */
 
-#ifndef _gcem_incomplete_beta_HPP
-#define _gcem_incomplete_beta_HPP
+#pragma once
 
 namespace internal
 {
@@ -190,5 +189,3 @@ noexcept
 {
     return internal::incomplete_beta_type_check(a,b,z);
 }
-
-#endif

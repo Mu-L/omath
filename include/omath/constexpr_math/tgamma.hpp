@@ -22,8 +22,7 @@
  * the ('true') gamma function
  */
 
-#ifndef _gcem_tgamma_HPP
-#define _gcem_tgamma_HPP
+#pragma once
 
 namespace internal
 {
@@ -76,5 +75,3 @@ noexcept
 {
     return internal::tgamma_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

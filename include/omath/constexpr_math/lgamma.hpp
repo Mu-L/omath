@@ -25,8 +25,7 @@
  * http://my.fit.edu/~gabdo/gamma.txt
  */
 
-#ifndef _gcem_lgamma_HPP
-#define _gcem_lgamma_HPP
+#pragma once
 
 namespace internal
 {
@@ -131,5 +130,3 @@ noexcept
 {
     return internal::lgamma_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

@@ -22,8 +22,7 @@
  * find the whole number part of x = n + r, where -0.5 <= r <= 0.5
  */
 
-#ifndef _gcem_find_whole_HPP
-#define _gcem_find_whole_HPP
+#pragma once
 
 namespace internal
 {
@@ -42,5 +41,3 @@ noexcept
 }
 
 }
-
-#endif

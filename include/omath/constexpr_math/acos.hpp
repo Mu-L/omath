@@ -22,47 +22,43 @@
  * compile-time arccosine function
  */
 
-#ifndef _gcem_acos_HPP
-#define _gcem_acos_HPP
+#pragma once
 
 namespace internal
 {
+    template<typename T>
+    [[nodiscard]] constexpr T acos_compute(const T x) noexcept
+    {
+        return ( // only defined on [-1,1]
+            abs(x) > T(1)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // indistinguishable from one or zero
+                GCLIM<T>::min() > abs(x - T(1))
+                    ? T(0)
+                    : GCLIM<T>::min() > abs(x)
+                          ? T(GCEM_HALF_PI)
+                          :
+                          // else
+                          atan(sqrt(T(1) - x * x) / x));
+    }
 
-template<typename T>
-constexpr
-T
-acos_compute(const T x)
-noexcept
-{
-    return( // only defined on [-1,1]
-            abs(x) > T(1) ? \
-                GCLIM<T>::quiet_NaN() :
-            // indistinguishable from one or zero
-            GCLIM<T>::min() > abs(x -  T(1)) ? \
-                T(0) :
-            GCLIM<T>::min() > abs(x) ? \
-                T(GCEM_HALF_PI) :
-            // else
-                atan( sqrt(T(1) - x*x)/x ) );
-}
-
-template<typename T>
-constexpr
-T
-acos_check(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            //
-            x > T(0) ? \
-            // if
-                acos_compute(x) :
-            // else 
-                T(GCEM_PI) - acos_compute(-x) );
-}
-
+    template<typename T>
+    [[nodiscard]] constexpr T acos_check(const T x) noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                //
+                x > T(0)
+                    ?
+                    // if
+                    acos_compute(x)
+                    :
+                    // else
+                    T(GCEM_PI) - acos_compute(-x));
+    }
 }
 
 /**
@@ -73,12 +69,7 @@ noexcept
  */
 
 template<typename T>
-constexpr
-return_t<T>
-acos(const T x)
-noexcept
+[[nodiscard]] constexpr return_t<T> acos(const T x) noexcept
 {
-    return internal::acos_check( static_cast<return_t<T>>(x) );
+    return internal::acos_check(static_cast<return_t<T>>(x));
 }
-
-#endif

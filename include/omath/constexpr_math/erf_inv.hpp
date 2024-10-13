@@ -25,8 +25,7 @@
  * 'Approximating the erfinv function' by Mike Giles
  */
 
-#ifndef _gcem_erf_inv_HPP
-#define _gcem_erf_inv_HPP
+#pragma once
 
 namespace internal
 {
@@ -259,6 +258,3 @@ noexcept
 {
     return internal::erf_inv_begin( static_cast<return_t<T>>(p) );
 }
-
-
-#endif

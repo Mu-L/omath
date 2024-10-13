@@ -21,6 +21,7 @@
 /*
  * Gauss-Legendre quadrature: 50 points
  */
+#pragma once
 
 static const long double gauss_legendre_50_points[50] = \
 {

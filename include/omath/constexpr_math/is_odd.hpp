@@ -22,8 +22,7 @@
  * compile-time check if integer is odd
  */
 
-#ifndef _gcem_is_odd_HPP
-#define _gcem_is_odd_HPP
+#pragma once
 
 namespace internal
 {
@@ -38,5 +37,3 @@ noexcept
 }
 
 }
-
-#endif

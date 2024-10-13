@@ -22,8 +22,8 @@
  * inverse of the incomplete beta function
  */
 
-#ifndef _gcem_incomplete_beta_inv_HPP
-#define _gcem_incomplete_beta_inv_HPP
+#pragma once
+
 
 namespace internal
 {
@@ -348,5 +348,3 @@ noexcept
 {
     return internal::incomplete_beta_inv_type_check(a,b,p);
 }
-
-#endif

@@ -22,8 +22,7 @@
  * compile-time mantissa function
  */
 
-#ifndef _gcem_mantissa_HPP
-#define _gcem_mantissa_HPP
+#pragma once
 
 namespace internal
 {
@@ -43,5 +42,3 @@ noexcept
 }
 
 }
-
-#endif

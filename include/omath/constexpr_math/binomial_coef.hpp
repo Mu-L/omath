@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_binomial_coef_HPP
-#define _gcem_binomial_coef_HPP
+#pragma once
 
 namespace internal
 {
@@ -87,5 +86,3 @@ noexcept
 {
     return internal::binomial_coef_type_check(n,k);
 }
-
-#endif

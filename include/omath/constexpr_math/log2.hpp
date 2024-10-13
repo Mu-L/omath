@@ -22,8 +22,8 @@
  * compile-time binary logarithm function
  */
 
-#ifndef _gcem_log2_HPP
-#define _gcem_log2_HPP
+#pragma once
+
 
 namespace internal
 {
@@ -55,5 +55,3 @@ noexcept
 {
     return internal::log2_check( x );
 }
-
-#endif

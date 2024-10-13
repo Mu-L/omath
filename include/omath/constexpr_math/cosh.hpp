@@ -22,8 +22,7 @@
  * compile-time hyperbolic cosine function
  */
 
-#ifndef _gcem_cosh_HPP
-#define _gcem_cosh_HPP
+#pragma once
 
 namespace internal
 {
@@ -61,5 +60,3 @@ noexcept
 {
     return internal::cosh_compute( static_cast<return_t<T>>(x) );
 }
-
-#endif

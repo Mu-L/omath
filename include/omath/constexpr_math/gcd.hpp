@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_gcd_HPP
-#define _gcem_gcd_HPP
+#pragma once
 
 namespace internal
 {
@@ -78,5 +77,3 @@ noexcept
 {
     return internal::gcd_type_check(a,b);
 }
-
-#endif

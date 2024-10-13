@@ -22,8 +22,7 @@
  * compile-time exponential function
  */
 
-#ifndef _gcem_expm1_HPP
-#define _gcem_expm1_HPP
+#pragma once
 
 namespace internal
 {
@@ -72,5 +71,3 @@ noexcept
 {
     return internal::expm1_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

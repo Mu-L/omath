@@ -26,8 +26,7 @@
 // http://functions.wolfram.com/ElementaryFunctions/ArcTan/10/0001/
 // http://functions.wolfram.com/ElementaryFunctions/ArcTan/06/01/06/01/0002/
 
-#ifndef _gcem_atan_HPP
-#define _gcem_atan_HPP
+#pragma once
 
 namespace internal
 {
@@ -213,5 +212,3 @@ noexcept
 {
     return internal::atan_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

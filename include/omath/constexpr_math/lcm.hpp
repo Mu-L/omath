@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_lcm_HPP
-#define _gcem_lcm_HPP
+#pragma once
 
 namespace internal
 {
@@ -61,5 +60,3 @@ noexcept
 {
     return internal::lcm_type_check(a,b);
 }
-
-#endif

@@ -22,8 +22,7 @@
  * compile-time square-root function
  */
 
-#ifndef _gcem_sqrt_HPP
-#define _gcem_sqrt_HPP
+#pragma once
 
 namespace internal
 {
@@ -105,5 +104,3 @@ noexcept
 {
     return internal::sqrt_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

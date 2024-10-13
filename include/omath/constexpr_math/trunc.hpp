@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_trunc_HPP
-#define _gcem_trunc_HPP
+#pragma once
 
 namespace internal
 {
@@ -117,5 +116,3 @@ noexcept
 {
     return internal::trunc_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

@@ -22,8 +22,7 @@
  * compile-time inverse hyperbolic cosine function
  */
 
-#ifndef _gcem_acosh_HPP
-#define _gcem_acosh_HPP
+#pragma once
 
 namespace internal
 {
@@ -64,5 +63,3 @@ noexcept
 {
     return internal::acosh_compute( static_cast<return_t<T>>(x) );
 }
-
-#endif

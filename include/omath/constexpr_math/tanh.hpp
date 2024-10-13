@@ -22,8 +22,7 @@
  * compile-time hyperbolic tangent function
  */
 
-#ifndef _gcem_tanh_HPP
-#define _gcem_tanh_HPP
+#pragma once
 
 namespace internal
 {
@@ -110,4 +109,3 @@ noexcept
     return internal::tanh_check( static_cast<return_t<T>>(x) );
 }
 
-#endif

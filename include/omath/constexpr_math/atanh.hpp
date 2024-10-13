@@ -22,8 +22,7 @@
  * compile-time inverse hyperbolic tangent function
  */
 
-#ifndef _gcem_atanh_HPP
-#define _gcem_atanh_HPP
+#pragma once
 
 namespace internal
 {
@@ -75,5 +74,3 @@ noexcept
 {
     return internal::atanh_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

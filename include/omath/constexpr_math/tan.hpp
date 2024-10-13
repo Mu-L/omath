@@ -22,8 +22,7 @@
  * compile-time tangent function
  */
 
-#ifndef _gcem_tan_HPP
-#define _gcem_tan_HPP
+#pragma once
 
 namespace internal
 {
@@ -136,5 +135,3 @@ noexcept
 {
     return internal::tan_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

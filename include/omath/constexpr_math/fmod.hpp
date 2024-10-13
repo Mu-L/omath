@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_fmod_HPP
-#define _gcem_fmod_HPP
+#pragma once
 
 namespace internal
 {
@@ -66,5 +65,3 @@ noexcept
 {
     return internal::fmod_type_check(x,y);
 }
-
-#endif

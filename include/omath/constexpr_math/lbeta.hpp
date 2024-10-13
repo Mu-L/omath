@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_lbeta_HPP
-#define _gcem_lbeta_HPP
+#pragma once
 
 /**
  * Compile-time log-beta function
@@ -39,4 +38,3 @@ noexcept
     return( (lgamma(a) + lgamma(b)) - lgamma(a+b) );
 }
 
-#endif

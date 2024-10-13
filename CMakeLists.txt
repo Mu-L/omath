@@ -16,7 +16,6 @@ else()
     add_library(omath STATIC source/Vector3.cpp)
 endif()
 
-target_link_libraries(omath PRIVATE gcem)
 
 add_subdirectory(source)
 add_subdirectory(extlibs)

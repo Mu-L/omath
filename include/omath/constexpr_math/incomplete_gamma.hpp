@@ -22,8 +22,7 @@
  * compile-time (regularized) incomplete gamma function
  */
 
-#ifndef _gcem_incomplete_gamma_HPP
-#define _gcem_incomplete_gamma_HPP
+#pragma once
 
 namespace internal
 {
@@ -243,5 +242,3 @@ noexcept
 {
     return internal::incomplete_gamma_type_check(a,x);
 }
-
-#endif

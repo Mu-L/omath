@@ -22,8 +22,7 @@
  * compile-time check if a float is not NaN-valued or +/-Inf
  */
 
-#ifndef _gcem_is_finite_HPP
-#define _gcem_is_finite_HPP
+#pragma once
 
 namespace internal
 {
@@ -74,5 +73,3 @@ noexcept
 }
 
 }
-
-#endif

@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_ceil_HPP
-#define _gcem_ceil_HPP
+#pragma once
 
 namespace internal
 {
@@ -126,5 +125,3 @@ noexcept
 {
     return internal::ceil_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

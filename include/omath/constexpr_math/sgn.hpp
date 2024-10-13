@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_sgn_HPP
-#define _gcem_sgn_HPP
+#pragma once
 
 /**
  * Compile-time sign function
@@ -42,4 +41,3 @@ noexcept
                 0 );
 }
 
-#endif

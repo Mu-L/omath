@@ -21,6 +21,8 @@
 /*
  * extract signbit for signed zeros
  */
+#pragma once
+
 
 namespace internal
 {

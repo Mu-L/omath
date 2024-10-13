@@ -22,8 +22,7 @@
  * inverse of the incomplete gamma function
  */
 
-#ifndef _gcem_incomplete_gamma_inv_HPP
-#define _gcem_incomplete_gamma_inv_HPP
+#pragma once
 
 namespace internal
 {
@@ -267,5 +266,3 @@ noexcept
 {
     return internal::incomplete_gamma_inv_type_check(a,p);
 }
-
-#endif

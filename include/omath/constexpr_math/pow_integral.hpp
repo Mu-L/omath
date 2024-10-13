@@ -22,8 +22,7 @@
  * compile-time power function
  */
 
-#ifndef _gcem_pow_integral_HPP
-#define _gcem_pow_integral_HPP
+#pragma once
 
 namespace internal
 {
@@ -124,5 +123,3 @@ noexcept
 }
 
 }
-
-#endif

@@ -18,9 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_max_HPP
-#define _gcem_max_HPP
-
+#pragma once
 /**
  * Compile-time pairwise maximum function
  *
@@ -37,5 +35,3 @@ noexcept
 {
     return( y < x ? x : y );
 }
-
-#endif

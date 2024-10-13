@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_fabsf_HPP
-#define _gcem_fabsf_HPP
+#pragma once
 
 /**
  * Compile-time floating-point absolute value function
@@ -37,4 +36,3 @@ noexcept
     return omath::abs( static_cast<float>(x) );
 }
 
-#endif

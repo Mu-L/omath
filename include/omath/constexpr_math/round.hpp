@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_round_HPP
-#define _gcem_round_HPP
+#pragma once
 
 namespace internal
 {
@@ -121,5 +120,3 @@ noexcept
 {
     return internal::round_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

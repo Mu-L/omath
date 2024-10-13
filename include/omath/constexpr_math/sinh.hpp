@@ -22,8 +22,7 @@
  * compile-time hyperbolic sine function
  */
 
-#ifndef _gcem_sinh_HPP
-#define _gcem_sinh_HPP
+#pragma once
 
 namespace internal
 {
@@ -61,5 +60,3 @@ noexcept
 {
     return internal::sinh_check( static_cast<return_t<T>>(x) );
 }
-
-#endif

@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_copysign_HPP
-#define _gcem_copysign_HPP
+#pragma once
 
 /**
  * Compile-time copy sign function
@@ -37,5 +36,3 @@ noexcept
 {
     return( signbit(x) != signbit(y) ? -x : x );
 }
-
-#endif

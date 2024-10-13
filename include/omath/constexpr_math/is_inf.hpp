@@ -22,8 +22,7 @@
  * compile-time check if a float is +/-Inf
  */
 
-#ifndef _gcem_is_inf_HPP
-#define _gcem_is_inf_HPP
+#pragma once
 
 namespace internal
 {
@@ -168,5 +167,3 @@ noexcept
 }
 
 }
-
-#endif

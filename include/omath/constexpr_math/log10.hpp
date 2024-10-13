@@ -22,8 +22,7 @@
  * compile-time common logarithm function
  */
 
-#ifndef _gcem_log10_HPP
-#define _gcem_log10_HPP
+#pragma once
 
 namespace internal
 {
@@ -55,5 +54,3 @@ noexcept
 {
     return internal::log10_check( x );
 }
-
-#endif

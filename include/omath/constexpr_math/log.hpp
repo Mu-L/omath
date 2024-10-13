@@ -22,8 +22,7 @@
  * compile-time natural logarithm function
  */
 
-#ifndef _gcem_log_HPP
-#define _gcem_log_HPP
+#pragma once
 
 namespace internal
 {
@@ -182,5 +181,3 @@ noexcept
 {
     return internal::log_integral_check( x );
 }
-
-#endif

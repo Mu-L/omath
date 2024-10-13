@@ -18,9 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_beta_HPP
-#define _gcem_beta_HPP
-
+#pragma once
 /**
  * Compile-time beta function
  *
@@ -38,5 +36,3 @@ noexcept
 {
     return exp( lbeta(a,b) );
 }
-
-#endif

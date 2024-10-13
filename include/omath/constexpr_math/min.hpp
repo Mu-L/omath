@@ -18,8 +18,7 @@
   ##
   ################################################################################*/
 
-#ifndef _gcem_min_HPP
-#define _gcem_min_HPP
+#pragma once
 
 /**
  * Compile-time pairwise minimum function
@@ -37,5 +36,3 @@ noexcept
 {
     return( y > x ? x : y );
 }
-
-#endif
