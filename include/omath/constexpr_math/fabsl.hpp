@@ -31,7 +31,7 @@ template<typename T>
 constexpr
 long double
 fabsl(const T x)
-noexcept
+    noexcept
 {
-    return omath::abs( static_cast<long double>(x) );
+    return omath::abs(static_cast<long double>(x));
 }

@@ -27,17 +27,15 @@
 
 namespace internal
 {
-
-template<typename T>
-constexpr
-return_t<T>
-log2_check(const T x)
-noexcept
-{
-    // log_2(x) = ln(x) / ln(2)
-    return return_t<T>(log(x) / GCEM_LOG_2);
-}
-
+    template<typename T>
+    constexpr
+    return_t<T>
+    log2_check(const T x)
+        noexcept
+    {
+        // log_2(x) = ln(x) / ln(2)
+        return return_t<T>(log(x) / GCEM_LOG_2);
+    }
 }
 
 /**
@@ -51,7 +49,7 @@ template<typename T>
 constexpr
 return_t<T>
 log2(const T x)
-noexcept
+    noexcept
 {
-    return internal::log2_check( x );
+    return internal::log2_check(x);
 }

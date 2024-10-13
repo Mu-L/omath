@@ -26,17 +26,15 @@
 
 namespace internal
 {
-
-template<typename T>
-constexpr
-return_t<T>
-log10_check(const T x)
-noexcept
-{
-    // log_10(x) = ln(x) / ln(10)
-    return return_t<T>(log(x) / GCEM_LOG_10);
-}
-
+    template<typename T>
+    constexpr
+    return_t<T>
+    log10_check(const T x)
+        noexcept
+    {
+        // log_10(x) = ln(x) / ln(10)
+        return return_t<T>(log(x) / GCEM_LOG_10);
+    }
 }
 
 /**
@@ -50,7 +48,7 @@ template<typename T>
 constexpr
 return_t<T>
 log10(const T x)
-noexcept
+    noexcept
 {
-    return internal::log10_check( x );
+    return internal::log10_check(x);
 }

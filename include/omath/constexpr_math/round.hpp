@@ -22,87 +22,96 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    round_int(const T x)
+        noexcept
+    {
+        return (abs(x - internal::floor_check(x)) >= T(0.5)
+                    ?
+                    // if
+                    internal::floor_check(x) + sgn(x)
+                    :
+                    // else
+                    internal::floor_check(x));
+    }
 
-template<typename T>
-constexpr
-T
-round_int(const T x)
-noexcept
-{
-    return( abs(x - internal::floor_check(x)) >= T(0.5) ? \
-            // if 
-                internal::floor_check(x) + sgn(x) : \
-            // else 
-                internal::floor_check(x) );
-}
+    template<typename T>
+    constexpr
+    T
+    round_check_internal(const T x)
+        noexcept
+    {
+        return x;
+    }
 
-template<typename T>
-constexpr
-T
-round_check_internal(const T x)
-noexcept
-{
-    return x;
-}
+    template<>
+    constexpr
+    float
+    round_check_internal<float>(const float x)
+        noexcept
+    {
+        return (abs(x) >= 8388608.f
+                    ?
+                    // if
+                    x
+                    :
+                    //else
+                    round_int(x));
+    }
 
-template<>
-constexpr
-float
-round_check_internal<float>(const float x)
-noexcept
-{
-    return( abs(x) >= 8388608.f ? \
-            // if
-                x : \
-            //else
-                round_int(x) );
-}
+    template<>
+    constexpr
+    double
+    round_check_internal<double>(const double x)
+        noexcept
+    {
+        return (abs(x) >= 4503599627370496.
+                    ?
+                    // if
+                    x
+                    :
+                    // else
+                    round_int(x));
+    }
 
-template<>
-constexpr
-double
-round_check_internal<double>(const double x)
-noexcept
-{
-    return( abs(x) >= 4503599627370496. ? \
-            // if
-                x : \
-            // else
-                round_int(x) );
-}
+    template<>
+    constexpr
+    long double
+    round_check_internal<long double>(const long double x)
+        noexcept
+    {
+        return (abs(x) >= 9223372036854775808.l
+                    ?
+                    // if
+                    x
+                    :
+                    // else
+                    round_int(x));
+    }
 
-template<>
-constexpr
-long double
-round_check_internal<long double>(const long double x)
-noexcept
-{
-    return( abs(x) >= 9223372036854775808.l ? \
-            // if
-                x : \
-            // else
-                round_int(x) );
-}
-
-template<typename T>
-constexpr
-T
-round_check(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            // +/- infinite
-            !is_finite(x) ? \
-                x :
-            // signed-zero cases
-            GCLIM<T>::min() > abs(x) ? \
-                x :
-            // else
-                sgn(x) * round_check_internal(abs(x)) );
-}
-
+    template<typename T>
+    constexpr
+    T
+    round_check(const T x)
+        noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // +/- infinite
+                !is_finite(x)
+                    ? x
+                    :
+                    // signed-zero cases
+                    GCLIM<T>::min() > abs(x)
+                        ? x
+                        :
+                        // else
+                        sgn(x) * round_check_internal(abs(x)));
+    }
 }
 
 /**
@@ -116,7 +125,7 @@ template<typename T>
 constexpr
 return_t<T>
 round(const T x)
-noexcept
+    noexcept
 {
-    return internal::round_check( static_cast<return_t<T>>(x) );
+    return internal::round_check(static_cast<return_t<T>>(x));
 }

@@ -22,83 +22,90 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    trunc_int(const T x)
+        noexcept
+    {
+        return (T(static_cast<llint_t>(x)));
+    }
 
-template<typename T>
-constexpr
-T
-trunc_int(const T x)
-noexcept
-{
-    return( T(static_cast<llint_t>(x)) );
-}
+    template<typename T>
+    constexpr
+    T
+    trunc_check_internal(const T x)
+        noexcept
+    {
+        return x;
+    }
 
-template<typename T>
-constexpr
-T
-trunc_check_internal(const T x)
-noexcept
-{
-    return x;
-}
+    template<>
+    constexpr
+    float
+    trunc_check_internal<float>(const float x)
+        noexcept
+    {
+        return (abs(x) >= 8388608.f
+                    ?
+                    // if
+                    x
+                    :
+                    // else
+                    trunc_int(x));
+    }
 
-template<>
-constexpr
-float
-trunc_check_internal<float>(const float x)
-noexcept
-{
-    return( abs(x) >= 8388608.f ? \
-            // if
-                x : \
-            // else
-                trunc_int(x) );
-}
+    template<>
+    constexpr
+    double
+    trunc_check_internal<double>(const double x)
+        noexcept
+    {
+        return (abs(x) >= 4503599627370496.
+                    ?
+                    // if
+                    x
+                    :
+                    // else
+                    trunc_int(x));
+    }
 
-template<>
-constexpr
-double
-trunc_check_internal<double>(const double x)
-noexcept
-{
-    return( abs(x) >= 4503599627370496. ? \
-            // if
-                x : \
-            // else
-                trunc_int(x) );
-}
+    template<>
+    constexpr
+    long double
+    trunc_check_internal<long double>(const long double x)
+        noexcept
+    {
+        return (abs(x) >= 9223372036854775808.l
+                    ?
+                    // if
+                    x
+                    :
+                    // else
+                    ((long double) static_cast<ullint_t>(abs(x))) * sgn(x));
+    }
 
-template<>
-constexpr
-long double
-trunc_check_internal<long double>(const long double x)
-noexcept
-{
-    return( abs(x) >= 9223372036854775808.l ? \
-            // if
-                x : \
-            // else
-                ((long double)static_cast<ullint_t>(abs(x))) * sgn(x) );
-}
-
-template<typename T>
-constexpr
-T
-trunc_check(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            // +/- infinite
-            !is_finite(x) ? \
-                x :
-            // signed-zero cases
-            GCLIM<T>::min() > abs(x) ? \
-                x :
-            // else
-                trunc_check_internal(x) );
-}
-
+    template<typename T>
+    constexpr
+    T
+    trunc_check(const T x)
+        noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // +/- infinite
+                !is_finite(x)
+                    ? x
+                    :
+                    // signed-zero cases
+                    GCLIM<T>::min() > abs(x)
+                        ? x
+                        :
+                        // else
+                        trunc_check_internal(x));
+    }
 }
 
 /**
@@ -112,7 +119,7 @@ template<typename T>
 constexpr
 return_t<T>
 trunc(const T x)
-noexcept
+    noexcept
 {
-    return internal::trunc_check( static_cast<return_t<T>>(x) );
+    return internal::trunc_check(static_cast<return_t<T>>(x));
 }

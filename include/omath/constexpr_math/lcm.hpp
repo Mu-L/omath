@@ -22,25 +22,23 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    lcm_compute(const T a, const T b)
+        noexcept
+    {
+        return abs(a * (b / gcd(a, b)));
+    }
 
-template<typename T>
-constexpr
-T
-lcm_compute(const T a, const T b)
-noexcept
-{
-    return abs(a * (b / gcd(a,b)));
-}
-
-template<typename T1, typename T2, typename TC = common_t<T1,T2>>
-constexpr
-TC
-lcm_type_check(const T1 a, const T2 b)
-noexcept
-{
-    return lcm_compute(static_cast<TC>(a),static_cast<TC>(b));
-}
-
+    template<typename T1, typename T2, typename TC = common_t<T1, T2> >
+    constexpr
+    TC
+    lcm_type_check(const T1 a, const T2 b)
+        noexcept
+    {
+        return lcm_compute(static_cast<TC>(a), static_cast<TC>(b));
+    }
 }
 
 /**
@@ -54,9 +52,9 @@ noexcept
 
 template<typename T1, typename T2>
 constexpr
-common_t<T1,T2>
+common_t<T1, T2>
 lcm(const T1 a, const T2 b)
-noexcept
+    noexcept
 {
-    return internal::lcm_type_check(a,b);
+    return internal::lcm_type_check(a, b);
 }

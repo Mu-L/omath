@@ -23,25 +23,23 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    log_binomial_coef_compute(const T n, const T k)
+        noexcept
+    {
+        return (lgamma(n + 1) - (lgamma(k + 1) + lgamma(n - k + 1)));
+    }
 
-template<typename T>
-constexpr
-T
-log_binomial_coef_compute(const T n, const T k)
-noexcept
-{
-    return( lgamma(n+1) - (lgamma(k+1) + lgamma(n-k+1)) );
-}
-
-template<typename T1, typename T2, typename TC = common_return_t<T1,T2>>
-constexpr
-TC
-log_binomial_coef_type_check(const T1 n, const T2 k)
-noexcept
-{
-    return log_binomial_coef_compute(static_cast<TC>(n),static_cast<TC>(k));
-}
-
+    template<typename T1, typename T2, typename TC = common_return_t<T1, T2> >
+    constexpr
+    TC
+    log_binomial_coef_type_check(const T1 n, const T2 k)
+        noexcept
+    {
+        return log_binomial_coef_compute(static_cast<TC>(n), static_cast<TC>(k));
+    }
 }
 
 /**
@@ -55,9 +53,9 @@ noexcept
 
 template<typename T1, typename T2>
 constexpr
-common_return_t<T1,T2>
+common_return_t<T1, T2>
 log_binomial_coef(const T1 n, const T2 k)
-noexcept
+    noexcept
 {
-    return internal::log_binomial_coef_type_check(n,k);
+    return internal::log_binomial_coef_type_check(n, k);
 }

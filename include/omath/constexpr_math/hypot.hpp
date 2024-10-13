@@ -28,45 +28,46 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    hypot_compute(const T x, const T ydx)
+        noexcept
+    {
+        return abs(x) * sqrt(T(1) + (ydx * ydx));
+    }
 
-template<typename T>
-constexpr
-T
-hypot_compute(const T x, const T ydx)
-noexcept
-{
-    return abs(x) * sqrt( T(1) + (ydx * ydx) );
-}
+    template<typename T>
+    constexpr
+    T
+    hypot_vals_check(const T x, const T y)
+        noexcept
+    {
+        return (any_nan(x, y)
+                    ? GCLIM<T>::quiet_NaN()
+                    :
+                    //
+                    any_inf(x, y)
+                        ? GCLIM<T>::infinity()
+                        :
+                        // indistinguishable from zero or one
+                        GCLIM<T>::min() > abs(x)
+                            ? abs(y)
+                            : GCLIM<T>::min() > abs(y)
+                                  ? abs(x)
+                                  :
+                                  // else
+                                  hypot_compute(x, y / x));
+    }
 
-template<typename T>
-constexpr
-T
-hypot_vals_check(const T x, const T y)
-noexcept
-{
-    return( any_nan(x, y) ? \
-                GCLIM<T>::quiet_NaN() :
-            //
-            any_inf(x,y) ? \
-                GCLIM<T>::infinity() :
-            // indistinguishable from zero or one
-            GCLIM<T>::min() > abs(x) ? \
-                abs(y) :
-            GCLIM<T>::min() > abs(y) ? \
-                abs(x) :
-            // else
-            hypot_compute(x, y/x) );
-}
-
-template<typename T1, typename T2, typename TC = common_return_t<T1,T2>>
-constexpr
-TC
-hypot_type_check(const T1 x, const T2 y)
-noexcept
-{
-    return hypot_vals_check(static_cast<TC>(x),static_cast<TC>(y));
-}
-
+    template<typename T1, typename T2, typename TC = common_return_t<T1, T2> >
+    constexpr
+    TC
+    hypot_type_check(const T1 x, const T2 y)
+        noexcept
+    {
+        return hypot_vals_check(static_cast<TC>(x), static_cast<TC>(y));
+    }
 }
 
 /**
@@ -79,9 +80,9 @@ noexcept
 
 template<typename T1, typename T2>
 constexpr
-common_return_t<T1,T2>
+common_return_t<T1, T2>
 hypot(const T1 x, const T2 y)
-noexcept
+    noexcept
 {
-    return internal::hypot_type_check(x,y);
+    return internal::hypot_type_check(x, y);
 }

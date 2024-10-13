@@ -29,41 +29,42 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    sin_compute(const T x)
+        noexcept
+    {
+        return T(2) * x / (T(1) + x * x);
+    }
 
-template<typename T>
-constexpr
-T
-sin_compute(const T x)
-noexcept
-{
-    return T(2)*x/(T(1) + x*x);
-}
-
-template<typename T>
-constexpr
-T
-sin_check(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            // indistinguishable from zero
-            GCLIM<T>::min() > abs(x) ? \
-                T(0) :
-            // special cases: pi/2 and pi
-            GCLIM<T>::min() > abs(x - T(GCEM_HALF_PI)) ? \
-                T(1) :
-            GCLIM<T>::min() > abs(x + T(GCEM_HALF_PI)) ? \
-                - T(1) :
-            GCLIM<T>::min() > abs(x - T(GCEM_PI)) ? \
-                T(0) :
-            GCLIM<T>::min() > abs(x + T(GCEM_PI)) ? \
-                - T(0) :
-            // else
-                sin_compute( tan(x/T(2)) ) );
-}
-
+    template<typename T>
+    constexpr
+    T
+    sin_check(const T x)
+        noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // indistinguishable from zero
+                GCLIM<T>::min() > abs(x)
+                    ? T(0)
+                    :
+                    // special cases: pi/2 and pi
+                    GCLIM<T>::min() > abs(x - T(GCEM_HALF_PI))
+                        ? T(1)
+                        : GCLIM<T>::min() > abs(x + T(GCEM_HALF_PI))
+                              ? -T(1)
+                              : GCLIM<T>::min() > abs(x - T(GCEM_PI))
+                                    ? T(0)
+                                    : GCLIM<T>::min() > abs(x + T(GCEM_PI))
+                                          ? -T(0)
+                                          :
+                                          // else
+                                          sin_compute(tan(x / T(2))));
+    }
 }
 
 /**
@@ -77,7 +78,7 @@ template<typename T>
 constexpr
 return_t<T>
 sin(const T x)
-noexcept
+    noexcept
 {
-    return internal::sin_check( static_cast<return_t<T>>(x) );
+    return internal::sin_check(static_cast<return_t<T>>(x));
 }

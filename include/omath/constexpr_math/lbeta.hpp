@@ -31,10 +31,9 @@
 
 template<typename T1, typename T2>
 constexpr
-common_return_t<T1,T2>
+common_return_t<T1, T2>
 lbeta(const T1 a, const T2 b)
-noexcept
+    noexcept
 {
-    return( (lgamma(a) + lgamma(b)) - lgamma(a+b) );
+    return ((lgamma(a) + lgamma(b)) - lgamma(a + b));
 }
-

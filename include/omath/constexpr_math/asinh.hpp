@@ -26,23 +26,23 @@
 
 namespace internal
 {
-
-template<typename T>
-constexpr
-T
-asinh_compute(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            // indistinguishable from zero
-            GCLIM<T>::min() > abs(x) ? \
-                T(0) :
-            // else
-                log( x + sqrt(x*x + T(1)) ) );
-}
-
+    template<typename T>
+    constexpr
+    T
+    asinh_compute(const T x)
+        noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // indistinguishable from zero
+                GCLIM<T>::min() > abs(x)
+                    ? T(0)
+                    :
+                    // else
+                    log(x + sqrt(x * x + T(1))));
+    }
 }
 
 /**
@@ -56,7 +56,7 @@ template<typename T>
 constexpr
 return_t<T>
 asinh(const T x)
-noexcept
+    noexcept
 {
-    return internal::asinh_compute( static_cast<return_t<T>>(x) );
+    return internal::asinh_compute(static_cast<return_t<T>>(x));
 }

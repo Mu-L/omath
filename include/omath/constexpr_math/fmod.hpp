@@ -22,46 +22,46 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    fmod_check(const T x, const T y)
+        noexcept
+    {
+        return ( // NaN check
+            any_nan(x, y)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // +/- infinite
+                !all_finite(x, y)
+                    ? GCLIM<T>::quiet_NaN()
+                    :
+                    // else
+                    x - trunc(x / y) * y);
+    }
 
-template<typename T>
-constexpr
-T
-fmod_check(const T x, const T y)
-noexcept
-{
-    return( // NaN check
-            any_nan(x, y) ? \
-                GCLIM<T>::quiet_NaN() :
-            // +/- infinite
-            !all_finite(x, y) ? \
-                GCLIM<T>::quiet_NaN() :
-            // else
-                x - trunc(x/y)*y );
-}
-
-template<typename T1, typename T2, typename TC = common_return_t<T1,T2>>
-constexpr
-TC
-fmod_type_check(const T1 x, const T2 y)
-noexcept
-{
-    return fmod_check(static_cast<TC>(x),static_cast<TC>(y));
-}
-
+    template<typename T1, typename T2, typename TC = common_return_t<T1, T2> >
+    constexpr
+    TC
+    fmod_type_check(const T1 x, const T2 y)
+        noexcept
+    {
+        return fmod_check(static_cast<TC>(x), static_cast<TC>(y));
+    }
 }
 
 /**
  * Compile-time remainder of division function
  * @param x a real-valued input.
  * @param y a real-valued input.
- * @return computes the floating-point remainder of \f$ x / y \f$ (rounded towards zero) using \f[ \text{fmod}(x,y) = x - \text{trunc}(x/y) \times y \f] 
+ * @return computes the floating-point remainder of \f$ x / y \f$ (rounded towards zero) using \f[ \text{fmod}(x,y) = x - \text{trunc}(x/y) \times y \f]
  */
 
 template<typename T1, typename T2>
 constexpr
-common_return_t<T1,T2>
+common_return_t<T1, T2>
 fmod(const T1 x, const T2 y)
-noexcept
+    noexcept
 {
-    return internal::fmod_type_check(x,y);
+    return internal::fmod_type_check(x, y);
 }

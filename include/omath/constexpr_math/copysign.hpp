@@ -28,11 +28,11 @@
  * @return replace the signbit of \c x with the signbit of \c y.
  */
 
-template <typename T1, typename T2>
+template<typename T1, typename T2>
 constexpr
 T1
 copysign(const T1 x, const T2 y)
-noexcept
+    noexcept
 {
-    return( signbit(x) != signbit(y) ? -x : x );
+    return (signbit(x) != signbit(y) ? -x : x);
 }

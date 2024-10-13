@@ -26,14 +26,12 @@
 
 namespace internal
 {
-
-constexpr
-bool
-is_odd(const llint_t x)
-noexcept
-{
-    // return( x % llint_t(2) == llint_t(0) ? false : true );
-    return (x & 1U) != 0;
-}
-
+    constexpr
+    bool
+    is_odd(const llint_t x)
+        noexcept
+    {
+        // return( x % llint_t(2) == llint_t(0) ? false : true );
+        return (x & 1U) != 0;
+    }
 }

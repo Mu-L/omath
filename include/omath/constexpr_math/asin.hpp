@@ -26,40 +26,41 @@
 
 namespace internal
 {
+    template<typename T>
+    constexpr
+    T
+    asin_compute(const T x)
+        noexcept
+    {
+        return ( // only defined on [-1,1]
+            x > T(1)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                // indistinguishable from one or zero
+                GCLIM<T>::min() > abs(x - T(1))
+                    ? T(GCEM_HALF_PI)
+                    : GCLIM<T>::min() > abs(x)
+                          ? T(0)
+                          :
+                          // else
+                          atan(x / sqrt(T(1) - x * x)));
+    }
 
-template<typename T>
-constexpr
-T
-asin_compute(const T x)
-noexcept
-{
-    return( // only defined on [-1,1]
-            x > T(1) ? \
-                GCLIM<T>::quiet_NaN() :
-            // indistinguishable from one or zero
-            GCLIM<T>::min() > abs(x -  T(1)) ? \
-                T(GCEM_HALF_PI) :
-            GCLIM<T>::min() > abs(x) ? \
-                T(0) :
-            // else
-                atan( x/sqrt(T(1) - x*x) ) );
-}
-
-template<typename T>
-constexpr
-T
-asin_check(const T x)
-noexcept
-{
-    return( // NaN check
-            is_nan(x) ? \
-                GCLIM<T>::quiet_NaN() :
-            //
-            x < T(0) ? \
-                - asin_compute(-x) : 
-                  asin_compute(x) );
-}
-
+    template<typename T>
+    constexpr
+    T
+    asin_check(const T x)
+        noexcept
+    {
+        return ( // NaN check
+            is_nan(x)
+                ? GCLIM<T>::quiet_NaN()
+                :
+                //
+                x < T(0)
+                    ? -asin_compute(-x)
+                    : asin_compute(x));
+    }
 }
 
 /**
@@ -73,7 +74,7 @@ template<typename T>
 constexpr
 return_t<T>
 asin(const T x)
-noexcept
+    noexcept
 {
-    return internal::asin_check( static_cast<return_t<T>>(x) );
+    return internal::asin_check(static_cast<return_t<T>>(x));
 }

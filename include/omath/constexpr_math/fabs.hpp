@@ -31,7 +31,7 @@ template<typename T>
 constexpr
 return_t<T>
 fabs(const T x)
-noexcept
+    noexcept
 {
-    return omath::abs( static_cast<return_t<T>>(x) );
+    return omath::abs(static_cast<return_t<T>>(x));
 }

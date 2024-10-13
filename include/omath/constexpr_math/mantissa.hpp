@@ -26,19 +26,18 @@
 
 namespace internal
 {
-
-template<typename T>
-constexpr
-T
-mantissa(const T x)
-noexcept
-{
-    return( x < T(1) ? \
-                mantissa(x * T(10)) : 
-            x > T(10) ? \
-                mantissa(x / T(10)) :
-            // else
-                x );
-}
-
+    template<typename T>
+    constexpr
+    T
+    mantissa(const T x)
+        noexcept
+    {
+        return (x < T(1)
+                    ? mantissa(x * T(10))
+                    : x > T(10)
+                          ? mantissa(x / T(10))
+                          :
+                          // else
+                          x);
+    }
 }

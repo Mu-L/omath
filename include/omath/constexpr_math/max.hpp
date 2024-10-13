@@ -29,9 +29,9 @@
 
 template<typename T1, typename T2>
 constexpr
-common_t<T1,T2>
+common_t<T1, T2>
 max(const T1 x, const T2 y)
-noexcept
+    noexcept
 {
-    return( y < x ? x : y );
+    return (y < x ? x : y);
 }

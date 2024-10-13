@@ -26,13 +26,11 @@
 
 namespace internal
 {
-
-constexpr
-bool
-is_even(const llint_t x)
-noexcept
-{
-    return !is_odd(x);
-}
-
+    constexpr
+    bool
+    is_even(const llint_t x)
+        noexcept
+    {
+        return !is_odd(x);
+    }
 }

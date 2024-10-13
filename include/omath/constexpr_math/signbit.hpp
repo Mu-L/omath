@@ -26,14 +26,14 @@
  * @return return true if \c x is negative, otherwise return false.
  */
 
-template <typename T>
-constexpr 
+template<typename T>
+constexpr
 bool
 signbit(const T x)
-noexcept
+    noexcept
 {
 #ifdef _MSC_VER
-    return( (x == T(0)) ? (_fpclass(x) == _FPCLASS_NZ) : (x < T(0)) );
+    return ((x == T(0)) ? (_fpclass(x) == _FPCLASS_NZ) : (x < T(0)));
 #else
     return GCEM_SIGNBIT(x);
 #endif

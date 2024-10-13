@@ -31,13 +31,16 @@ template<typename T>
 constexpr
 int
 sgn(const T x)
-noexcept
+    noexcept
 {
-    return( // positive
-            x > T(0) ?  1 :
+    return ( // positive
+        x > T(0)
+            ? 1
+            :
             // negative
-            x < T(0) ? -1 :
-            // else
-                0 );
+            x < T(0)
+                ? -1
+                :
+                // else
+                0);
 }
-
