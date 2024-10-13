@@ -5,7 +5,8 @@
 #pragma once
 #include <tuple>
 #include <cmath>
-
+#include <omath/constexpr/sqrt.h>
+#include <omath/constexpr/abs.h>
 
 namespace omath
 {
@@ -114,7 +115,10 @@ namespace omath
             return x * vOther.x + y * vOther.y;
         }
 
-        [[nodiscard]] float Length() const;
+        [[nodiscard]] constexpr float Length() const
+        {
+            return omath::sqrt(x * x + y * y);
+        }
 
         [[nodiscard]] constexpr float LengthSqr() const
         {
@@ -123,9 +127,9 @@ namespace omath
 
         constexpr Vector2& Abs()
         {
-            //FIXME: Replace with std::abs, if it will become constexprable
-            x = x < 0 ? -x : x;
-            y = y < 0 ? -y : y;
+            x = omath::abs(x);
+            y = omath::abs(y);
+
             return *this;
         }
 
@@ -167,7 +171,13 @@ namespace omath
         }
 
         // Normalize the vector
-        [[nodiscard]] Vector2 Normalized() const;
+        [[nodiscard]] constexpr Vector2 Normalized() const
+        {
+            if (const float len = Length(); len > 0.f)
+                return {x / len, y / len};
+
+            return {0.f, 0.f};
+        }
 
          // Sum of elements
         [[nodiscard]] constexpr float Sum() const

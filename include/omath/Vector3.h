@@ -15,7 +15,7 @@ namespace omath
     {
     public:
         float z = 0.f;
-        constexpr Vector3(float x, float y, float z) : Vector2(x, y), z(z) { }
+        constexpr Vector3(const float x, const float y, const float z) : Vector2(x, y), z(z) { }
         constexpr Vector3() : Vector2(), z(0.f) {};
 
         [[nodiscard]] constexpr bool operator==(const Vector3& src) const
@@ -93,12 +93,15 @@ namespace omath
         }
 
         [[nodiscard]]
-        float DistTo(const Vector3& vOther) const;
+        constexpr float DistTo(const Vector3& vOther) const
+        {
+            return (*this - vOther).Length();
+        }
 
         constexpr Vector3& Abs()
         {
             Vector2::Abs();
-            z = z < 0.f ? -z : z;
+            z = omath::abs(z);
 
             return *this;
         }
@@ -112,14 +115,20 @@ namespace omath
         {
             return Vector2::Dot(vOther) + z * vOther.z;
         }
-        [[nodiscard]] float Length() const;
+        [[nodiscard]] constexpr float Length() const
+        {
+            return omath::sqrt(Vector2::LengthSqr() + z * z);
+        }
 
         [[nodiscard]] constexpr float LengthSqr() const
         {
             return Vector2::LengthSqr() + z * z;
         }
 
-        [[nodiscard]] float Length2D() const;
+        [[nodiscard]] float Length2D() const
+        {
+            return Vector2::Length();
+        }
 
         [[nodiscard]] constexpr Vector3 operator-() const
         {
@@ -182,8 +191,12 @@ namespace omath
         [[nodiscard]] static Vector3 UpVector(float pitch, float yaw, float roll);
 
 
-        [[nodiscard]]
-        Vector3 Normalized() const;
+        [[nodiscard]] constexpr Vector3 Normalized() const
+        {
+            const float length = Length();
+
+            return length != 0 ? *this / length : *this;
+        }
 
         [[nodiscard]] std::tuple<float, float, float> AsTuple() const
         {
