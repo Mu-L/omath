@@ -29,44 +29,26 @@ namespace internal
     // see
     // http://functions.wolfram.com/GammaBetaErf/Erf/10/01/0007/
 
-#if __cplusplus >= 201402L // C++14 version
-
-template<typename T>
-constexpr
-T
-erf_cf_large_recur(const T x, const int depth_end)
-noexcept
-{
-    int depth = GCEM_ERF_MAX_ITER - 1;
-    T res = x;
-
-    while (depth > depth_end - 1) {
-        res = x + 2 * depth / res;
-
-        --depth;
-    }
-
-    return res;
-}
-
-#else // C++11 version
 
     template<typename T>
     constexpr
     T
-    erf_cf_large_recur(const T x, const int depth)
+    erf_cf_large_recur(const T x, const int depth_end)
         noexcept
     {
-        return (depth < GCEM_ERF_MAX_ITER
-                    ?
-                    // if
-                    x + 2 * depth / erf_cf_large_recur(x, depth + 1)
-                    :
-                    // else
-                    x);
+        int depth = GCEM_ERF_MAX_ITER - 1;
+        T res = x;
+
+        while (depth > depth_end - 1)
+        {
+            res = x + 2 * depth / res;
+
+            --depth;
+        }
+
+        return res;
     }
 
-#endif
 
     template<typename T>
     constexpr
@@ -81,98 +63,62 @@ noexcept
     // see
     // http://functions.wolfram.com/GammaBetaErf/Erf/10/01/0005/
 
-#if __cplusplus >= 201402L // C++14 version
-
-template<typename T>
-constexpr
-T
-erf_cf_small_recur(const T xx, const int depth_end)
-noexcept
-{
-    int depth = GCEM_ERF_MAX_ITER - 1;
-    T res = T(2*(depth+1) - 1) - 2 * xx;
-
-    while (depth > depth_end - 1) {
-        res = T(2*depth - 1) - 2 * xx + 4 * depth * xx / res;
-
-        --depth;
-    }
-
-    return res;
-}
-
-#else // C++11 version
 
     template<typename T>
     constexpr
     T
-    erf_cf_small_recur(const T xx, const int depth)
+    erf_cf_small_recur(const T xx, const int depth_end)
         noexcept
     {
-        return (depth < GCEM_ERF_MAX_ITER
-                    ?
-                    // if
-                    (2 * depth - T(1)) - 2 * xx
-                    + 4 * depth * xx / erf_cf_small_recur(xx, depth + 1)
-                    :
-                    // else
-                    (2 * depth - T(1)) - 2 * xx);
+        int depth = GCEM_ERF_MAX_ITER - 1;
+        T res = T(2 * (depth + 1) - 1) - 2 * xx;
+
+        while (depth > depth_end - 1)
+        {
+            res = T(2 * depth - 1) - 2 * xx + 4 * depth * xx / res;
+
+            --depth;
+        }
+
+        return res;
     }
 
-#endif
 
     template<typename T>
-    constexpr
-    T
-    erf_cf_small_main(const T x)
-        noexcept
+    [[nodiscard]] constexpr T erf_cf_small_main(const T x) noexcept
     {
-        return (T(2) * x * (exp(-x * x) / T(GCEM_SQRT_PI))
-                / erf_cf_small_recur(x * x, 1));
+        return T(2) * x * (exp(-x * x) / T(GCEM_SQRT_PI)) / erf_cf_small_recur(x * x, 1);
     }
 
     //
 
     template<typename T>
-    constexpr
-    T
-    erf_begin(const T x)
-        noexcept
+    [[nodiscard]] constexpr T erf_begin(const T x) noexcept
     {
-        return (x > T(2.1)
-                    ?
-                    // if
-                    erf_cf_large_main(x)
-                    :
-                    // else
-                    erf_cf_small_main(x));
+        return x > T(2.1) ? erf_cf_large_main(x) : erf_cf_small_main(x);
     }
 
     template<typename T>
-    constexpr
-    T
-    erf_check(const T x)
-        noexcept
+    [[nodiscard]] constexpr T erf_check(const T x) noexcept
     {
-        return ( // NaN check
-            is_nan(x)
-                ? GCLIM<T>::quiet_NaN()
-                :
-                // +/-Inf
-                is_posinf(x)
-                    ? T(1)
-                    : is_neginf(x)
-                          ? -T(1)
-                          :
-                          // indistinguishable from zero
-                          GCLIM<T>::min() > abs(x)
-                              ? T(0)
-                              :
-                              // else
-                              x < T(0)
-                                  ? -erf_begin(-x)
-                                  : erf_begin(x));
+        if (is_nan(x))
+            return GCLIM<T>::quiet_NaN();
+
+        if (is_posinf(x))
+            return T(1);
+
+        if (is_neginf(x))
+            return -T(1);
+
+        if (GCLIM<T>::min() > abs(x))
+            return T(0);
+
+        if (x < T(0))
+            return -erf_begin(-x);
+
+            return erf_begin(x);
     }
+
 }
 
 /**
@@ -186,10 +132,7 @@ noexcept
  */
 
 template<typename T>
-constexpr
-return_t<T>
-erf(const T x)
-    noexcept
+[[nodiscard]] constexpr return_t<T> erf(const T x) noexcept
 {
     return internal::erf_check(static_cast<return_t<T>>(x));
 }

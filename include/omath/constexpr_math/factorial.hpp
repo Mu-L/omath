@@ -29,93 +29,43 @@ namespace internal
     // T should be int, long int, unsigned int, etc.
 
     template<typename T>
-    constexpr
-    T
-    factorial_table(const T x)
-        noexcept
+    [[nodiscard]] constexpr T factorial_table(const T x) noexcept
     {
-        // table for x! when x = {0, ..., 20}
-        return (x == T(0)
-                    ? T(1)
-                    : x == T(1)
-                          ? T(1)
-                          : x == T(2)
-                                ? T(2)
-                                : x == T(3)
-                                      ? T(6)
-                                      : x == T(4)
-                                            ? T(24)
-                                            : x == T(5)
-                                                  ? T(120)
-                                                  : x == T(6)
-                                                        ? T(720)
-                                                        : x == T(7)
-                                                              ? T(5040)
-                                                              : x == T(8)
-                                                                    ? T(40320)
-                                                                    : x == T(9)
-                                                                          ? T(362880)
-                                                                          :
-                                                                          //
-                                                                          x == T(10)
-                                                                              ? T(3628800)
-                                                                              : x == T(11)
-                                                                                  ? T(39916800)
-                                                                                  : x == T(12)
-                                                                                      ? T(479001600)
-                                                                                      : x == T(13)
-                                                                                          ? T(6227020800)
-                                                                                          : x == T(14)
-                                                                                              ? T(
-                                                                                                  87178291200)
-                                                                                              : x == T(
-                                                                                                  15)
-                                                                                                  ? T(
-                                                                                                      1307674368000)
-                                                                                                  : x ==
-                                                                                                          T(
-                                                                                                              16)
-                                                                                                          ? T(
-                                                                                                              20922789888000)
-                                                                                                          : x ==
-                                                                                                                  T(
-                                                                                                                      17)
-                                                                                                                  ? T(
-                                                                                                                      355687428096000)
-                                                                                                                  : x ==
-                                                                                                                          T(
-                                                                                                                              18)
-                                                                                                                          ? T(
-                                                                                                                              6402373705728000)
-                                                                                                                          : x ==
-                                                                                                                                  T(
-                                                                                                                                      19)
-                                                                                                                                  ? T(
-                                                                                                                                      121645100408832000)
-                                                                                                                                  : T(
-                                                                                                                                      2432902008176640000));
+        switch (static_cast<int>(x)) {
+            case 0:  return T(1);
+            case 1:  return T(1);
+            case 2:  return T(2);
+            case 3:  return T(6);
+            case 4:  return T(24);
+            case 5:  return T(120);
+            case 6:  return T(720);
+            case 7:  return T(5040);
+            case 8:  return T(40320);
+            case 9:  return T(362880);
+            case 10: return T(3628800);
+            case 11: return T(39916800);
+            case 12: return T(479001600);
+            case 13: return T(6227020800);
+            case 14: return T(87178291200);
+            case 15: return T(1307674368000);
+            case 16: return T(20922789888000);
+            case 17: return T(355687428096000);
+            case 18: return T(6402373705728000);
+            case 19: return T(121645100408832000);
+            case 20: return T(2432902008176640000);
+            default: std::unreachable();
+        }
     }
 
-    template<typename T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
-    constexpr
-    T
-    factorial_recur(const T x)
-        noexcept
+
+    template<typename T, std::enable_if_t<std::is_integral_v<T>>* = nullptr>
+    [[nodiscard]] constexpr T factorial_recur(const T x) noexcept
     {
-        return (x < T(21)
-                    ?
-                    // if
-                    factorial_table(x)
-                    :
-                    // else (but overflow is almost guaranteed here)
-                    x * factorial_recur(x - 1));
+        return x < T(21) ? factorial_table(x) : x * factorial_recur(x - 1);
     }
 
-    template<typename T, typename std::enable_if<!std::is_integral<T>::value>::type* = nullptr>
-    constexpr
-    T
-    factorial_recur(const T x)
-        noexcept
+    template<typename T, std::enable_if_t<!std::is_integral_v<T>>* = nullptr>
+    [[nodiscard]] constexpr T factorial_recur(const T x) noexcept
     {
         return tgamma(x + 1);
     }
@@ -131,10 +81,7 @@ namespace internal
  */
 
 template<typename T>
-constexpr
-T
-factorial(const T x)
-    noexcept
+[[nodiscard]] constexpr T factorial(const T x) noexcept
 {
     return internal::factorial_recur(x);
 }

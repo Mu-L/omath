@@ -28,88 +28,53 @@ namespace internal
 {
     // see https://en.wikipedia.org/wiki/Euler%27s_continued_fraction_formula
 
-#if __cplusplus >= 201402L // C++14 version
-
-template<typename T>
-constexpr
-T
-exp_cf_recur(const T x, const int depth_end)
-noexcept
-{
-    int depth = GCEM_EXP_MAX_ITER_SMALL - 1;
-    T res = T(1);
-
-    while (depth > depth_end - 1) {
-        res = T(1) + x/T(depth - 1) - x/depth/res;
-
-        --depth;
-    }
-
-    return res;
-}
-
-#else // C++11 version
-
     template<typename T>
-    constexpr
-    T
-    exp_cf_recur(const T x, const int depth)
-        noexcept
+    [[nodiscard]] constexpr T exp_cf_recur(const T x, const int depth_end) noexcept
     {
-        return (depth < GCEM_EXP_MAX_ITER_SMALL
-                    ?
-                    // if
-                    T(1) + x / T(depth - 1) - x / depth / exp_cf_recur(x, depth + 1)
-                    :
-                    // else
-                    T(1));
-    }
+        int depth = GCEM_EXP_MAX_ITER_SMALL - 1;
+        T res = T(1);
 
-#endif
+        while (depth > depth_end - 1)
+        {
+            res = T(1) + x / T(depth - 1) - x / depth / res;
 
-    template<typename T>
-    constexpr
-    T
-    exp_cf(const T x)
-        noexcept
-    {
-        return (T(1) / (T(1) - x / exp_cf_recur(x, 2)));
+            --depth;
+        }
+
+        return res;
     }
 
     template<typename T>
-    constexpr
-    T
-    exp_split(const T x)
-        noexcept
+    [[nodiscard]] constexpr T exp_cf(const T x) noexcept
     {
-        return (static_cast<T>(pow_integral(GCEM_E, find_whole(x))) * exp_cf(find_fraction(x)));
+        return T(1) / (T(1) - x / exp_cf_recur(x, 2));
     }
 
     template<typename T>
-    constexpr
-    T
-    exp_check(const T x)
-        noexcept
+    [[nodiscard]] constexpr T exp_split(const T x) noexcept
     {
-        return (is_nan(x)
-                    ? GCLIM<T>::quiet_NaN()
-                    :
-                    //
-                    is_neginf(x)
-                        ? T(0)
-                        :
-                        // indistinguishable from zero
-                        GCLIM<T>::min() > abs(x)
-                            ? T(1)
-                            :
-                            //
-                            is_posinf(x)
-                                ? GCLIM<T>::infinity()
-                                :
-                                //
-                                abs(x) < T(2)
-                                    ? exp_cf(x)
-                                    : exp_split(x));
+        return static_cast<T>(pow_integral(GCEM_E, find_whole(x))) * exp_cf(find_fraction(x));
+    }
+
+    template<typename T>
+    [[nodiscard]] constexpr T exp_check(const T x) noexcept
+    {
+        if (is_nan(x))
+            return GCLIM<T>::quiet_NaN();
+
+        if (is_neginf(x))
+            return T(0);
+
+        if (GCLIM<T>::min() > abs(x))
+            return T(1);
+
+        if (is_posinf(x))
+            return GCLIM<T>::infinity();
+
+        if (abs(x) < T(2))
+            return exp_cf(x);
+
+        return exp_split(x);
     }
 }
 
@@ -122,10 +87,7 @@ noexcept
  */
 
 template<typename T>
-constexpr
-return_t<T>
-exp(const T x)
-    noexcept
+constexpr return_t<T> exp(const T x) noexcept
 {
     return internal::exp_check(static_cast<return_t<T>>(x));
 }

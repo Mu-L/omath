@@ -27,17 +27,12 @@
 namespace internal
 {
     template<typename T>
-    constexpr
-    T
-    find_fraction(const T x)
-        noexcept
+    [[nodiscard]] constexpr T find_fraction(const T x) noexcept
     {
-        return (abs(x - internal::floor_check(x)) >= T(0.5)
+        return abs(x - internal::floor_check(x)) >= T(0.5)
                     ?
-                    // if
                     x - internal::floor_check(x) - sgn(x)
                     :
-                    //else
-                    x - internal::floor_check(x));
+                    x - internal::floor_check(x);
     }
 }

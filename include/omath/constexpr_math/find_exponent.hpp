@@ -27,28 +27,26 @@
 namespace internal
 {
     template<typename T>
-    constexpr
-    llint_t
-    find_exponent(const T x, const llint_t exponent)
-        noexcept
+    [[nodiscard]] constexpr llint_t find_exponent(const T x, const llint_t exponent) noexcept
     {
-        return ( // < 1
-            x < T(1e-03)
-                ? find_exponent(x * T(1e+04), exponent - llint_t(4))
-                : x < T(1e-01)
-                      ? find_exponent(x * T(1e+02), exponent - llint_t(2))
-                      : x < T(1)
-                            ? find_exponent(x * T(10), exponent - llint_t(1))
-                            :
-                            // > 10
-                            x > T(10)
-                                ? find_exponent(x / T(10), exponent + llint_t(1))
-                                : x > T(1e+02)
-                                      ? find_exponent(x / T(1e+02), exponent + llint_t(2))
-                                      : x > T(1e+04)
-                                            ? find_exponent(x / T(1e+04), exponent + llint_t(4))
-                                            :
-                                            // else
-                                            exponent);
+        if (x < T(1e-03))
+            return find_exponent(x * T(1e+04), exponent - static_cast<llint_t>(4));
+
+        if (x < T(1e-01))
+            return find_exponent(x * T(1e+02), exponent - static_cast<llint_t>(2));
+
+        if (x < T(1))
+            return find_exponent(x * T(10), exponent - static_cast<llint_t>(1));
+
+        if (x > T(1e+04))
+            return find_exponent(x / T(1e+04), exponent + static_cast<llint_t>(4));
+
+        if (x > T(1e+02))
+            return find_exponent(x / T(1e+02), exponent + static_cast<llint_t>(2));
+
+        if (x > T(10))
+            return find_exponent(x / T(10), exponent + static_cast<llint_t>(1));
+
+        return exponent;
     }
 }

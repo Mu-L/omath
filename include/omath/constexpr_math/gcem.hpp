@@ -21,7 +21,8 @@
 #pragma once
 
 #include "gcem_options.hpp"
-
+#include "abs.hpp"
+#include "acos.hpp"
 namespace omath
 {
 #include "quadrature/gauss_legendre_50.hpp"
@@ -35,7 +36,6 @@ namespace omath
 #include "neg_zero.hpp"
 #include "sgn.hpp"
 
-#include "abs.hpp"
 #include "fabs.hpp"
 #include "fabsf.hpp"
 #include "fabsl.hpp"
@@ -75,7 +75,6 @@ namespace omath
 
 #include "atan.hpp"
 #include "atan2.hpp"
-#include "acos.hpp"
 #include "asin.hpp"
 
 #include "tanh.hpp"
