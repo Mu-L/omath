@@ -6,6 +6,8 @@
 
 #include <cstdint>
 #include <functional>
+
+#include "Angles.h"
 #include "omath/Vector2.h"
 
 
@@ -184,11 +186,62 @@ namespace omath
             return Vector2::Sum();
         }
 
-        [[nodiscard]] Vector3 ViewAngleTo(const Vector3& other) const;
+        [[nodiscard]] constexpr Vector3 ViewAngleTo(const Vector3& other) const
+        {
+            const float distance = DistTo(other);
+            const auto delta = other - *this;
 
-        [[nodiscard]] static Vector3 ForwardVector(float pitch, float yaw);
-        [[nodiscard]] static Vector3 RightVector(float pitch, float yaw, float roll);
-        [[nodiscard]] static Vector3 UpVector(float pitch, float yaw, float roll);
+            return
+            {
+                angles::RadiansToDegrees(omath::asin(delta.z / distance)),
+                angles::RadiansToDegrees(omath::atan2(delta.y, delta.x)),
+                0.f
+            };
+        }
+
+        [[nodiscard]] constexpr static Vector3 ForwardVector(const float pitch, const float yaw)
+        {
+            const auto cosPitch = omath::cos(angles::DegreesToRadians(pitch));
+            const auto sinPitch = omath::sin(angles::DegreesToRadians(pitch));
+
+            const auto cosYaw = omath::cos(angles::DegreesToRadians(yaw));
+            const auto sinYaw = omath::sin(angles::DegreesToRadians(yaw));
+
+
+            return
+            {
+                cosPitch*cosYaw,
+                cosPitch*sinYaw,
+                sinPitch
+            };
+        }
+        [[nodiscard]] constexpr static Vector3 RightVector(const float pitch, const float yaw, const float roll)
+        {
+            const auto radPitch = angles::DegreesToRadians(pitch);
+            const auto radYaw = angles::DegreesToRadians(yaw);
+            const auto radRoll = angles::DegreesToRadians(roll);
+
+            const auto cosPitch = omath::cos(radPitch);
+            const auto sinPitch = omath::sin(radPitch);
+
+            const auto cosYaw = omath::cos(radYaw);
+            const auto sinYaw = omath::sin(radYaw);
+
+            const auto cosRoll = omath::cos(radRoll);
+            const auto sinRoll = omath::sin(radRoll);
+
+
+            return
+            {
+                sinRoll*sinPitch*cosYaw + cosRoll*sinYaw,
+                sinRoll*sinPitch*sinYaw - cosRoll*cosYaw,
+                -sinRoll*cosPitch
+            };
+        }
+        [[nodiscard]] constexpr static Vector3 UpVector(const float pitch, const float yaw, const float roll)
+        {
+            return RightVector(pitch, yaw, roll).Cross(ForwardVector(pitch, yaw));
+        }
 
 
         [[nodiscard]] constexpr Vector3 Normalized() const

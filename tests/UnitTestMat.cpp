@@ -157,7 +157,7 @@ TEST_F(UnitTestMat, StaticMethod_ToScreenMat)
 // Test static method: TranslationMat
 TEST_F(UnitTestMat, StaticMethod_TranslationMat)
 {
-    Vector3 diff{10.0f, 20.0f, 30.0f};
+    constexpr Vector3 diff{10.0f, 20.0f, 30.0f};
     Mat<4, 4> transMat = Mat<4, 4>::TranslationMat(diff);
     EXPECT_FLOAT_EQ(transMat.At(0, 0), 1.0f);
     EXPECT_FLOAT_EQ(transMat.At(3, 0), diff.x);
@@ -191,7 +191,7 @@ TEST_F(UnitTestMat, StaticMethod_ProjectionMat)
     constexpr float aspectRatio = 1.33f;
     constexpr float near = 0.1f;
     constexpr float far = 100.0f;
-    const Mat<4, 4> projMat = Mat<4, 4>::ProjectionMat(fieldOfView, aspectRatio, near, far);
+    constexpr Mat<4, 4> projMat = Mat<4, 4>::ProjectionMat(fieldOfView, aspectRatio, near, far);
 
     const float fovHalfTan = std::tan(angles::DegreesToRadians(fieldOfView) / 2.f);
 

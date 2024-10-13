@@ -282,7 +282,7 @@ namespace omath
         [[nodiscard]]
         constexpr static Mat<4, 4> ProjectionMat(const float fieldOfView, const float aspectRatio, const float near, const float far)
         {
-            const float fovHalfTan = std::tan(angles::DegreesToRadians(fieldOfView) / 2.f);
+            const float fovHalfTan = omath::tan(angles::DegreesToRadians(fieldOfView) / 2.f);
 
             return
             {

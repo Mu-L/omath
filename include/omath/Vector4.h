@@ -86,7 +86,10 @@ namespace omath
             return Vector3::Dot(vOther) + w * vOther.w;
         }
 
-        [[nodiscard]] float Length() const;
+        [[nodiscard]] float Length() const
+        {
+            return std::sqrt(LengthSqr());
+        }
 
         constexpr Vector4& Abs()
         {

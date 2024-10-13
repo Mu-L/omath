@@ -5,8 +5,7 @@
 #pragma once
 #include <tuple>
 #include <cmath>
-#include <omath/constexpr/sqrt.h>
-#include <omath/constexpr/abs.h>
+#include <omath/constexpr_math/gcem.hpp>
 
 namespace omath
 {

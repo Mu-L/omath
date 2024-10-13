@@ -9,8 +9,4 @@
 namespace omath
 {
 
-    float Vector4::Length() const
-    {
-        return std::sqrt(LengthSqr());
-    }
 }
