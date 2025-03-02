@@ -1,0 +1,1 @@
+target_sources(omath PRIVATE signature_scan/SigScannerMemModule.cpp)
