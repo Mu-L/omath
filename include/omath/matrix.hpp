@@ -7,6 +7,7 @@
 namespace omath
 {
 
+    // WARNING: This class deprecated consider to use <omath/mat.hpp> instead!!
     class Matrix final
     {
     public:
