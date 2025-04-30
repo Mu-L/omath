@@ -5,6 +5,8 @@
 #pragma once
 #include <algorithm>
 #include <utility>
+
+#include "compile_definitions.hpp"
 #include "omath/angles.hpp"
 
 
@@ -21,7 +23,7 @@ namespace omath
     class Angle
     {
         Type m_angle;
-        constexpr explicit Angle(const Type& degrees)
+        OMATH_CONSTEXPR explicit Angle(const Type& degrees)
         {
             if constexpr (flags == AngleFlags::Normalized)
                 m_angle = angles::WrapAngle(degrees, min, max);
@@ -37,33 +39,33 @@ namespace omath
 
     public:
         [[nodiscard]]
-        constexpr static Angle FromDegrees(const Type& degrees)
+        OMATH_CONSTEXPR static Angle FromDegrees(const Type& degrees)
         {
             return Angle{degrees};
         }
-        constexpr Angle() : m_angle(0)
+        OMATH_CONSTEXPR Angle() : m_angle(0)
         {
         }
         [[nodiscard]]
-        constexpr static Angle FromRadians(const Type& degrees)
+        OMATH_CONSTEXPR static Angle FromRadians(const Type& degrees)
         {
             return Angle{angles::RadiansToDegrees<Type>(degrees)};
         }
 
         [[nodiscard]]
-        constexpr const Type& operator*() const
+        OMATH_CONSTEXPR const Type& operator*() const
         {
             return m_angle;
         }
 
         [[nodiscard]]
-        constexpr Type AsDegrees() const
+        OMATH_CONSTEXPR Type AsDegrees() const
         {
             return m_angle;
         }
 
         [[nodiscard]]
-        constexpr Type AsRadians() const
+        OMATH_CONSTEXPR Type AsRadians() const
         {
             return angles::DegreesToRadians(m_angle);
         }
@@ -98,12 +100,12 @@ namespace omath
             return Cos() / Sin();
         }
 
-        constexpr Angle& operator+=(const Angle& other)
+        OMATH_CONSTEXPR Angle& operator+=(const Angle& other)
         {
-            if constexpr (flags == AngleFlags::Normalized)
+            if OMATH_CONSTEXPR (flags == AngleFlags::Normalized)
                 m_angle = angles::WrapAngle(m_angle + other.m_angle, min, max);
 
-            else if constexpr (flags == AngleFlags::Clamped)
+            else if OMATH_CONSTEXPR (flags == AngleFlags::Clamped)
                 m_angle = std::clamp(m_angle + other.m_angle, min, max);
             else
             {
@@ -115,20 +117,20 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr std::partial_ordering operator<=>(const Angle& other) const = default;
+        OMATH_CONSTEXPR std::partial_ordering operator<=>(const Angle& other) const = default;
 
-        constexpr Angle& operator-=(const Angle& other)
+        OMATH_CONSTEXPR Angle& operator-=(const Angle& other)
         {
             return operator+=(-other);
         }
 
         [[nodiscard]]
-        constexpr Angle& operator+(const Angle& other)
+        OMATH_CONSTEXPR Angle& operator+(const Angle& other)
         {
-            if constexpr (flags == AngleFlags::Normalized)
+            if OMATH_CONSTEXPR (flags == AngleFlags::Normalized)
                 return {angles::WrapAngle(m_angle + other.m_angle, min, max)};
 
-            else if constexpr (flags == AngleFlags::Clamped)
+            else if OMATH_CONSTEXPR (flags == AngleFlags::Clamped)
                 return {std::clamp(m_angle + other.m_angle, min, max)};
 
             else
@@ -138,13 +140,13 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr Angle& operator-(const Angle& other)
+        OMATH_CONSTEXPR Angle& operator-(const Angle& other)
         {
             return operator+(-other);
         }
 
         [[nodiscard]]
-        constexpr Angle operator-() const
+        OMATH_CONSTEXPR Angle operator-() const
         {
             return Angle{-m_angle};
         }

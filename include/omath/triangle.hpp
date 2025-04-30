@@ -20,8 +20,8 @@ namespace omath
     class Triangle final
     {
     public:
-        constexpr Triangle() = default;
-        constexpr Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3)
+        OMATH_CONSTEXPR Triangle() = default;
+        OMATH_CONSTEXPR Triangle(const Vector& vertex1, const Vector& vertex2, const Vector& vertex3)
             : m_vertex1(vertex1), m_vertex2(vertex2), m_vertex3(vertex3)
         {
         }
@@ -31,7 +31,7 @@ namespace omath
         Vector3<float> m_vertex3;
 
         [[nodiscard]]
-        constexpr Vector3<float> CalculateNormal() const
+        OMATH_CONSTEXPR Vector3<float> CalculateNormal() const
         {
             const auto b = SideBVector();
             const auto a = SideAVector();
@@ -51,18 +51,18 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr Vector3<float> SideAVector() const
+        OMATH_CONSTEXPR Vector3<float> SideAVector() const
         {
             return m_vertex1 - m_vertex2;
         }
 
         [[nodiscard]]
-        constexpr float Hypot() const
+        OMATH_CONSTEXPR float Hypot() const
         {
             return m_vertex1.DistTo(m_vertex3);
         }
         [[nodiscard]]
-        constexpr bool IsRectangular() const
+        OMATH_CONSTEXPR bool IsRectangular() const
         {
             const auto sideA = SideALength();
             const auto sideB = SideBLength();
@@ -71,12 +71,12 @@ namespace omath
             return std::abs(sideA*sideA + sideB*sideB - hypot*hypot) <= 0.0001f;
         }
         [[nodiscard]]
-        constexpr Vector3<float> SideBVector() const
+        OMATH_CONSTEXPR Vector3<float> SideBVector() const
         {
             return m_vertex3 - m_vertex2;
         }
         [[nodiscard]]
-        constexpr Vector3<float> MidPoint() const
+        OMATH_CONSTEXPR Vector3<float> MidPoint() const
         {
             return (m_vertex1 + m_vertex2 + m_vertex3) / 3;
         }

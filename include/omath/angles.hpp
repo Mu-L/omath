@@ -5,19 +5,19 @@
 #pragma once
 #include <cmath>
 #include <numbers>
-
+#include <omath/compile_definitions.hpp>
 namespace omath::angles
 {
     template<class Type>
     requires std::is_floating_point_v<Type>
-    [[nodiscard]] constexpr Type RadiansToDegrees(const Type& radians)
+    [[nodiscard]] OMATH_CONSTEXPR Type RadiansToDegrees(const Type& radians)
     {
         return radians * (Type(180) / std::numbers::pi_v<Type>);
     }
 
     template<class Type>
     requires std::is_floating_point_v<Type>
-    [[nodiscard]] constexpr Type DegreesToRadians(const Type& degrees)
+    [[nodiscard]] OMATH_CONSTEXPR Type DegreesToRadians(const Type& degrees)
     {
         return degrees * (std::numbers::pi_v<Type> / Type(180));
     }

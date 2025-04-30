@@ -12,7 +12,7 @@ namespace omath::projectile_prediction
     public:
 
         [[nodiscard]]
-        constexpr Vector3<float> PredictPosition(const float time, const float gravity) const
+        OMATH_CONSTEXPR Vector3<float> PredictPosition(const float time, const float gravity) const
         {
             auto predicted = m_origin + m_velocity * time;
 

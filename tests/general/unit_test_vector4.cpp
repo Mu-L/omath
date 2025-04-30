@@ -27,7 +27,7 @@ protected:
 // Test constructor and default values
 TEST_F(UnitTestVector4, Constructor_Default)
 {
-    constexpr Vector4<float> v;
+    OMATH_CONSTEXPR Vector4<float> v;
     EXPECT_FLOAT_EQ(v.x, 0.0f);
     EXPECT_FLOAT_EQ(v.y, 0.0f);
     EXPECT_FLOAT_EQ(v.z, 0.0f);
@@ -36,7 +36,7 @@ TEST_F(UnitTestVector4, Constructor_Default)
 
 TEST_F(UnitTestVector4, Constructor_Values)
 {
-    constexpr Vector4 v(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_FLOAT_EQ(v.x, 1.0f);
     EXPECT_FLOAT_EQ(v.y, 2.0f);
     EXPECT_FLOAT_EQ(v.z, 3.0f);
@@ -46,14 +46,14 @@ TEST_F(UnitTestVector4, Constructor_Values)
 // Test equality operators
 TEST_F(UnitTestVector4, EqualityOperator)
 {
-    constexpr Vector4 v3(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v3(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_TRUE(v1 == v3);
     EXPECT_FALSE(v1 == v2);
 }
 
 TEST_F(UnitTestVector4, InequalityOperator)
 {
-    constexpr Vector4 v3(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v3(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_FALSE(v1 != v3);
     EXPECT_TRUE(v1 != v2);
 }
@@ -61,7 +61,7 @@ TEST_F(UnitTestVector4, InequalityOperator)
 // Test arithmetic operators
 TEST_F(UnitTestVector4, AdditionOperator)
 {
-    constexpr Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) + Vector4(4.0f, 5.0f, 6.0f, 7.0f);
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) + Vector4(4.0f, 5.0f, 6.0f, 7.0f);
     EXPECT_FLOAT_EQ(v3.x, 5.0f);
     EXPECT_FLOAT_EQ(v3.y, 7.0f);
     EXPECT_FLOAT_EQ(v3.z, 9.0f);
@@ -70,7 +70,7 @@ TEST_F(UnitTestVector4, AdditionOperator)
 
 TEST_F(UnitTestVector4, SubtractionOperator)
 {
-    constexpr Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) - Vector4(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) - Vector4(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_FLOAT_EQ(v3.x, 3.0f);
     EXPECT_FLOAT_EQ(v3.y, 3.0f);
     EXPECT_FLOAT_EQ(v3.z, 3.0f);
@@ -79,7 +79,7 @@ TEST_F(UnitTestVector4, SubtractionOperator)
 
 TEST_F(UnitTestVector4, MultiplicationOperator_Scalar)
 {
-    constexpr Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) * 2.0f;
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) * 2.0f;
     EXPECT_FLOAT_EQ(v3.x, 2.0f);
     EXPECT_FLOAT_EQ(v3.y, 4.0f);
     EXPECT_FLOAT_EQ(v3.z, 6.0f);
@@ -88,7 +88,7 @@ TEST_F(UnitTestVector4, MultiplicationOperator_Scalar)
 
 TEST_F(UnitTestVector4, MultiplicationOperator_Vector)
 {
-    constexpr Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) * Vector4(4.0f, 5.0f, 6.0f, 7.0f);
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(1.0f, 2.0f, 3.0f, 4.0f) * Vector4(4.0f, 5.0f, 6.0f, 7.0f);
     EXPECT_FLOAT_EQ(v3.x, 4.0f);
     EXPECT_FLOAT_EQ(v3.y, 10.0f);
     EXPECT_FLOAT_EQ(v3.z, 18.0f);
@@ -97,7 +97,7 @@ TEST_F(UnitTestVector4, MultiplicationOperator_Vector)
 
 TEST_F(UnitTestVector4, DivisionOperator_Scalar)
 {
-    constexpr Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) / 2.0f;
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) / 2.0f;
     EXPECT_FLOAT_EQ(v3.x, 2.0f);
     EXPECT_FLOAT_EQ(v3.y, 2.5f);
     EXPECT_FLOAT_EQ(v3.z, 3.0f);
@@ -106,7 +106,7 @@ TEST_F(UnitTestVector4, DivisionOperator_Scalar)
 
 TEST_F(UnitTestVector4, DivisionOperator_Vector)
 {
-    constexpr Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) / Vector4(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v3 = Vector4(4.0f, 5.0f, 6.0f, 7.0f) / Vector4(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_FLOAT_EQ(v3.x, 4.0f);
     EXPECT_FLOAT_EQ(v3.y, 2.5f);
     EXPECT_FLOAT_EQ(v3.z, 2.0f);
@@ -170,7 +170,7 @@ TEST_F(UnitTestVector4, DivisionAssignmentOperator_Vector)
 
 TEST_F(UnitTestVector4, NegationOperator)
 {
-    constexpr Vector4 v3 = -Vector4(1.0f, 2.0f, 3.0f, 4.0f);
+    OMATH_CONSTEXPR Vector4 v3 = -Vector4(1.0f, 2.0f, 3.0f, 4.0f);
     EXPECT_FLOAT_EQ(v3.x, -1.0f);
     EXPECT_FLOAT_EQ(v3.y, -2.0f);
     EXPECT_FLOAT_EQ(v3.z, -3.0f);
@@ -180,13 +180,13 @@ TEST_F(UnitTestVector4, NegationOperator)
 // Test other member functions
 TEST_F(UnitTestVector4, LengthSqr)
 {
-    constexpr float lengthSqr = Vector4(1.0f, 2.0f, 3.0f, 4.0f).LengthSqr();
+    OMATH_CONSTEXPR float lengthSqr = Vector4(1.0f, 2.0f, 3.0f, 4.0f).LengthSqr();
     EXPECT_FLOAT_EQ(lengthSqr, 30.0f);
 }
 
 TEST_F(UnitTestVector4, DotProduct)
 {
-    constexpr float dot = Vector4(1.0f, 2.0f, 3.0f, 4.0f).Dot(Vector4(4.0f, 5.0f, 6.0f, 7.0f));
+    OMATH_CONSTEXPR float dot = Vector4(1.0f, 2.0f, 3.0f, 4.0f).Dot(Vector4(4.0f, 5.0f, 6.0f, 7.0f));
     EXPECT_FLOAT_EQ(dot, 60.0f);
 }
 
@@ -202,7 +202,7 @@ TEST_F(UnitTestVector4, Abs)
 
 TEST_F(UnitTestVector4, Sum)
 {
-    constexpr float sum = Vector4(1.0f, 2.0f, 3.0f, 4.0f).Sum();
+    OMATH_CONSTEXPR float sum = Vector4(1.0f, 2.0f, 3.0f, 4.0f).Sum();
     EXPECT_FLOAT_EQ(sum, 10.0f);
 }
 

@@ -19,18 +19,18 @@ namespace omath
         constexpr Vector4() : Vector3<Type>(), w(0) {};
 
         [[nodiscard]]
-        constexpr bool operator==(const Vector4& src) const
+        OMATH_CONSTEXPR bool operator==(const Vector4& src) const
         {
             return Vector3<Type>::operator==(src) && w == src.w;
         }
 
         [[nodiscard]]
-        constexpr bool operator!=(const Vector4& src) const
+        OMATH_CONSTEXPR bool operator!=(const Vector4& src) const
         {
             return !(*this == src);
         }
 
-        constexpr Vector4& operator+=(const Vector4& v)
+        OMATH_CONSTEXPR Vector4& operator+=(const Vector4& v)
         {
             Vector3<Type>::operator+=(v);
             w += v.w;
@@ -38,7 +38,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector4& operator-=(const Vector4& v)
+        OMATH_CONSTEXPR Vector4& operator-=(const Vector4& v)
         {
             Vector3<Type>::operator-=(v);
             w -= v.w;
@@ -46,7 +46,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector4& operator*=(const float scalar)
+        OMATH_CONSTEXPR Vector4& operator*=(const float scalar)
         {
             Vector3<Type>::operator*=(scalar);
             w *= scalar;
@@ -54,7 +54,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector4& operator*=(const Vector4& v)
+        OMATH_CONSTEXPR Vector4& operator*=(const Vector4& v)
         {
             Vector3<Type>::operator*=(v);
             w *= v.w;
@@ -62,7 +62,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector4& operator/=(const float scalar)
+        OMATH_CONSTEXPR Vector4& operator/=(const float scalar)
         {
             Vector3<Type>::operator/=(scalar);
             w /= scalar;
@@ -70,19 +70,19 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector4& operator/=(const Vector4& v)
+        OMATH_CONSTEXPR Vector4& operator/=(const Vector4& v)
         {
             Vector3<Type>::operator/=(v);
             w /= v.w;
             return *this;
         }
 
-        [[nodiscard]] constexpr Type LengthSqr() const
+        [[nodiscard]] OMATH_CONSTEXPR Type LengthSqr() const
         {
             return Vector3<Type>::LengthSqr() + w * w;
         }
 
-        [[nodiscard]] constexpr Type Dot(const Vector4& vOther) const
+        [[nodiscard]] OMATH_CONSTEXPR Type Dot(const Vector4& vOther) const
         {
             return Vector3<Type>::Dot(vOther) + w * vOther.w;
         }
@@ -92,14 +92,14 @@ namespace omath
             return std::sqrt(LengthSqr());
         }
 
-        constexpr Vector4& Abs()
+        OMATH_CONSTEXPR Vector4& Abs()
         {
             Vector3<Type>::Abs();
             w = w < 0.f ? -w : w;
 
             return *this;
         }
-        constexpr Vector4& Clamp(const Type& min, const Type& max)
+        OMATH_CONSTEXPR Vector4& Clamp(const Type& min, const Type& max)
         {
             this->x = std::clamp(this->x, min, max);
             this->y = std::clamp(this->y, min, max);
@@ -109,49 +109,49 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator-() const
+        OMATH_CONSTEXPR Vector4 operator-() const
         {
             return {-this->x, -this->y, -this->z, -w};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator+(const Vector4& v) const
+        OMATH_CONSTEXPR Vector4 operator+(const Vector4& v) const
         {
             return {this->x + v.x, this->y + v.y, this->z + v.z, w + v.w};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator-(const Vector4& v) const
+        OMATH_CONSTEXPR Vector4 operator-(const Vector4& v) const
         {
             return {this->x - v.x, this->y - v.y, this->z - v.z, w - v.w};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator*(const Type& scalar) const
+        OMATH_CONSTEXPR Vector4 operator*(const Type& scalar) const
         {
             return {this->x * scalar, this->y * scalar, this->z * scalar, w * scalar};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator*(const Vector4& v) const
+        OMATH_CONSTEXPR Vector4 operator*(const Vector4& v) const
         {
             return {this->x * v.x, this->y * v.y, this->z * v.z, w * v.w};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator/(const Type& scalar) const
+        OMATH_CONSTEXPR Vector4 operator/(const Type& scalar) const
         {
             return {this->x / scalar, this->y / scalar, this->z / scalar, w / scalar};
         }
 
         [[nodiscard]]
-        constexpr Vector4 operator/(const Vector4& v) const
+        OMATH_CONSTEXPR Vector4 operator/(const Vector4& v) const
         {
             return {this->x / v.x, this->y / v.y, this->z / v.z, w / v.w};
         }
 
         [[nodiscard]]
-        constexpr Type Sum() const
+        OMATH_CONSTEXPR Type Sum() const
         {
             return Vector3<Type>::Sum() + w;
         }

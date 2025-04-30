@@ -5,7 +5,7 @@ project(omath VERSION 1.0.1 LANGUAGES CXX)
 include(CMakePackageConfigHelpers)
 
 
-option(OMATH_BUILD_TESTS "Build unit tests" OFF)
+option(OMATH_BUILD_TESTS "Build unit tests" ON)
 option(OMATH_THREAT_WARNING_AS_ERROR "Set highest level of warnings and force compiler to treat them as errors" ON)
 option(OMATH_BUILD_AS_SHARED_LIBRARY "Build Omath as .so or .dll" OFF)
 option(OMATH_USE_AVX2 "Omath will use AVX2 to boost performance" ON)
@@ -13,7 +13,9 @@ option(OMATH_IMGUI_INTEGRATION "Omath will define method to convert omath types 
 option(OMATH_BUILD_EXAMPLES "Build example projects with you can learn & play" OFF)
 option(OMATH_STATIC_MSVC_RUNTIME_LIBRARY "Force Omath to link static runtime" OFF)
 option(OMATH_SUPRESS_SAFETY_CHECKS "Supress some safety checks in release build to improve general performance" ON)
-option(OMATH_USE_UNITY_BUILD "Will enable unity build to speed up compilation" ON)
+option(OMATH_USE_UNITY_BUILD "Will enable unity build to speed up compilation" OFF)
+option(OMATH_USE_CONSTEXPR "Will mark some methods and functions to be constexpr" OFF)
+option(OMATH_USE_SECURE_ENGINE "Will place markers for Oreans SecureEngine. Use with caution it can hit performance" ON)
 
 file(GLOB_RECURSE OMATH_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 file(GLOB_RECURSE OMATH_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
@@ -51,6 +53,11 @@ if (OMATH_USE_AVX2)
     target_compile_definitions(omath PUBLIC OMATH_USE_AVX2)
 endif ()
 
+if (OMATH_USE_CONSTEXPR)
+    target_compile_definitions(omath PUBLIC OMATH_USE_CONSTEXPR)
+endif ()
+
+
 if (OMATH_SUPRESS_SAFETY_CHECKS)
     target_compile_definitions(omath PUBLIC OMATH_SUPRESS_SAFETY_CHECKS)
 endif ()
@@ -83,6 +90,17 @@ target_compile_features(omath PUBLIC cxx_std_23)
 if (OMATH_BUILD_TESTS)
     add_subdirectory(extlibs)
     add_subdirectory(tests)
+endif ()
+
+if (OMATH_USE_SECURE_ENGINE)
+    target_compile_definitions(omath PUBLIC OMATH_USE_SECURE_ENGINE)
+    target_link_libraries(omath PUBLIC cv-sdk)
+
+    install(TARGETS cv-sdk
+            EXPORT omathTargets
+            ARCHIVE DESTINATION lib
+            LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin)
 endif ()
 
 if (OMATH_BUILD_EXAMPLES)

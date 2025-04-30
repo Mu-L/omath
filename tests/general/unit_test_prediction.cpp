@@ -3,9 +3,9 @@
 
 TEST(UnitTestPrediction, PredictionTest)
 {
-    constexpr omath::projectile_prediction::Target target{
+    OMATH_CONSTEXPR omath::projectile_prediction::Target target{
             .m_origin = {100, 0, 90}, .m_velocity = {0, 0, 0}, .m_isAirborne = false};
-    constexpr omath::projectile_prediction::Projectile proj = {
+    OMATH_CONSTEXPR omath::projectile_prediction::Projectile proj = {
             .m_origin = {3, 2, 1}, .m_launchSpeed = 5000, .m_gravityScale = 0.4};
     const auto viewPoint =
             omath::projectile_prediction::ProjPredEngineLegacy(400, 1.f / 1000.f, 50, 5.f).MaybeCalculateAimPoint(proj, target);

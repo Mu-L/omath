@@ -10,95 +10,95 @@ namespace omath
     class Matrix final
     {
     public:
-        Matrix();
-        Matrix(size_t rows, size_t columns);
+        OMATH_SE_COMPATIBLE Matrix();
+        OMATH_SE_COMPATIBLE Matrix(size_t rows, size_t columns);
 
-        Matrix(const std::initializer_list<std::initializer_list<float>>& rows);
-
-        [[nodiscard]]
-        static Matrix ToScreenMatrix(float screenWidth, float screenHeight);
+        OMATH_SE_COMPATIBLE Matrix(const std::initializer_list<std::initializer_list<float>>& rows);
 
         [[nodiscard]]
-        static Matrix TranslationMatrix(const Vector3<float>& diff);
+        OMATH_SE_COMPATIBLE static Matrix ToScreenMatrix(float screenWidth, float screenHeight);
 
         [[nodiscard]]
-        static Matrix OrientationMatrix(const Vector3<float>& forward, const Vector3<float>& right, const Vector3<float>& up);
+        OMATH_SE_COMPATIBLE static Matrix TranslationMatrix(const Vector3<float>& diff);
 
         [[nodiscard]]
-        static Matrix ProjectionMatrix(float fieldOfView, float aspectRatio, float near, float far);
-
-        Matrix(const Matrix& other);
-
-        Matrix(size_t rows, size_t columns, const float* pRaw);
-
-        Matrix(Matrix&& other) noexcept;
+        OMATH_SE_COMPATIBLE static Matrix OrientationMatrix(const Vector3<float>& forward, const Vector3<float>& right, const Vector3<float>& up);
 
         [[nodiscard]]
-        size_t RowCount() const noexcept;
+        OMATH_SE_COMPATIBLE static Matrix ProjectionMatrix(float fieldOfView, float aspectRatio, float near, float far);
+
+        OMATH_SE_COMPATIBLE Matrix(const Matrix& other);
+
+        OMATH_SE_COMPATIBLE Matrix(size_t rows, size_t columns, const float* pRaw);
+
+        OMATH_SE_COMPATIBLE Matrix(Matrix&& other) noexcept;
+
+        [[nodiscard]]
+        OMATH_SE_COMPATIBLE size_t RowCount() const noexcept;
 
 
         [[nodiscard]]
-        float& operator[](size_t row, size_t column);
+        OMATH_SE_COMPATIBLE float& operator[](size_t row, size_t column);
 
         [[nodiscard]]
-        size_t ColumnsCount() const noexcept;
+        OMATH_SE_COMPATIBLE size_t ColumnsCount() const noexcept;
 
         [[nodiscard]]
-        std::pair<size_t, size_t> Size() const noexcept;
+        OMATH_SE_COMPATIBLE std::pair<size_t, size_t> Size() const noexcept;
 
         [[nodiscard]]
-        float& At(size_t iRow, size_t iCol);
+        OMATH_SE_COMPATIBLE float& At(size_t iRow, size_t iCol);
 
         [[nodiscard]]
-        float Sum();
+        OMATH_SE_COMPATIBLE float Sum();
 
-        void SetDataFromRaw(const float* pRawMatrix);
-
-        [[nodiscard]]
-        Matrix Transpose() const;
-
-        void Set(float val);
+        OMATH_SE_COMPATIBLE void SetDataFromRaw(const float* pRawMatrix);
 
         [[nodiscard]]
-        const float& At(size_t iRow, size_t iCol) const;
+        OMATH_SE_COMPATIBLE Matrix Transpose() const;
 
-        Matrix operator*(const Matrix& other) const;
-
-        Matrix& operator*=(const Matrix& other);
-
-        Matrix operator*(float f) const;
-
-        Matrix& operator*=(float f);
-
-        Matrix& operator/=(float f);
-
-        void Clear();
+        OMATH_SE_COMPATIBLE void Set(float val);
 
         [[nodiscard]]
-        Matrix Strip(size_t row, size_t column) const;
+        OMATH_SE_COMPATIBLE const float& At(size_t iRow, size_t iCol) const;
+
+        OMATH_SE_COMPATIBLE Matrix operator*(const Matrix& other) const;
+
+        OMATH_SE_COMPATIBLE Matrix& operator*=(const Matrix& other);
+
+        OMATH_SE_COMPATIBLE Matrix operator*(float f) const;
+
+        OMATH_SE_COMPATIBLE Matrix& operator*=(float f);
+
+        OMATH_SE_COMPATIBLE Matrix& operator/=(float f);
+
+        OMATH_SE_COMPATIBLE void Clear();
 
         [[nodiscard]]
-        float Minor(size_t i, size_t j) const;
+        OMATH_SE_COMPATIBLE Matrix Strip(size_t row, size_t column) const;
 
         [[nodiscard]]
-        float AlgComplement(size_t i, size_t j) const;
+        OMATH_SE_COMPATIBLE float Minor(size_t i, size_t j) const;
 
         [[nodiscard]]
-        float Determinant() const;
+        OMATH_SE_COMPATIBLE float AlgComplement(size_t i, size_t j) const;
 
         [[nodiscard]]
-        const float* Raw() const;
-
-        Matrix& operator=(const Matrix& other);
-
-        Matrix& operator=(Matrix&& other) noexcept;
-
-        Matrix operator/(float f) const;
+        OMATH_SE_COMPATIBLE float Determinant() const;
 
         [[nodiscard]]
-        std::string ToString() const;
+        OMATH_SE_COMPATIBLE const float* Raw() const;
 
-        ~Matrix();
+        OMATH_SE_COMPATIBLE Matrix& operator=(const Matrix& other);
+
+        OMATH_SE_COMPATIBLE Matrix& operator=(Matrix&& other) noexcept;
+
+        OMATH_SE_COMPATIBLE Matrix operator/(float f) const;
+
+        [[nodiscard]]
+        OMATH_SE_COMPATIBLE std::string ToString() const;
+
+        OMATH_SE_COMPATIBLE ~Matrix();
 
     private:
         size_t m_rows;

@@ -30,20 +30,20 @@ namespace omath
     class Color final : public Vector4<float>
     {
     public:
-        constexpr Color(const float r, const float g, const float b, const float a) : Vector4(r, g, b, a)
+        OMATH_CONSTEXPR Color(const float r, const float g, const float b, const float a) : Vector4(r, g, b, a)
         {
             Clamp(0.f, 1.f);
         }
 
-        constexpr explicit Color() = default;
+        OMATH_CONSTEXPR explicit Color() = default;
         [[nodiscard]]
-        constexpr static Color FromRGBA(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a)
+        OMATH_CONSTEXPR static Color FromRGBA(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a)
         {
             return Color{Vector4(r, g, b, a) / 255.f};
         }
 
         [[nodiscard]]
-        constexpr static Color FromHSV(float hue, const float saturation, const float value)
+        OMATH_CONSTEXPR static Color FromHSV(float hue, const float saturation, const float value)
         {
             float r{}, g{}, b{};
 
@@ -84,13 +84,13 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr static Color FromHSV(const HSV& hsv)
+        OMATH_CONSTEXPR static Color FromHSV(const HSV& hsv)
         {
             return FromHSV(hsv.hue, hsv.saturation, hsv.value);
         }
 
         [[nodiscard]]
-        constexpr HSV ToHSV() const
+        OMATH_CONSTEXPR HSV ToHSV() const
         {
             HSV hsvData;
 
@@ -123,11 +123,11 @@ namespace omath
             return hsvData;
         }
 
-        constexpr explicit Color(const Vector4& vec) : Vector4(vec)
+        OMATH_CONSTEXPR explicit Color(const Vector4& vec) : Vector4(vec)
         {
             Clamp(0.f, 1.f);
         }
-        constexpr void SetHue(const float hue)
+        OMATH_CONSTEXPR void SetHue(const float hue)
         {
             auto hsv = ToHSV();
             hsv.hue = hue;
@@ -135,7 +135,7 @@ namespace omath
             *this = FromHSV(hsv);
         }
 
-        constexpr void SetSaturation(const float saturation)
+        OMATH_CONSTEXPR void SetSaturation(const float saturation)
         {
             auto hsv = ToHSV();
             hsv.saturation = saturation;
@@ -143,7 +143,7 @@ namespace omath
             *this = FromHSV(hsv);
         }
 
-        constexpr void SetValue(const float value)
+        OMATH_CONSTEXPR void SetValue(const float value)
         {
             auto hsv = ToHSV();
             hsv.value = value;
@@ -151,21 +151,21 @@ namespace omath
             *this = FromHSV(hsv);
         }
         [[nodiscard]]
-        constexpr Color Blend(const Color& other, float ratio) const
+        OMATH_CONSTEXPR Color Blend(const Color& other, float ratio) const
         {
             ratio = std::clamp(ratio, 0.f, 1.f);
             return Color(*this * (1.f - ratio) + other * ratio);
         }
 
-        [[nodiscard]] static constexpr Color Red()
+        [[nodiscard]] static OMATH_CONSTEXPR Color Red()
         {
             return {1.f, 0.f, 0.f, 1.f};
         }
-        [[nodiscard]] static constexpr Color Green()
+        [[nodiscard]] static OMATH_CONSTEXPR Color Green()
         {
             return {0.f, 1.f, 0.f, 1.f};
         }
-        [[nodiscard]] static constexpr Color Blue()
+        [[nodiscard]] static OMATH_CONSTEXPR Color Blue()
         {
             return {0.f, 0.f, 1.f, 1.f};
         }

@@ -1,8 +1,8 @@
 #include "omath/matrix.hpp"
 #include "omath/angles.hpp"
 #include "omath/vector3.hpp"
-
-
+#include "omath/compile_definitions.hpp"
+#include <CodeVirtualizer/ThemidaSDK.h>
 #include <complex>
 #include <format>
 #include <stdexcept>
@@ -13,6 +13,7 @@ namespace omath
 {
     Matrix::Matrix(const size_t rows, const size_t columns)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         if (rows == 0 and columns == 0)
             throw std::runtime_error("Matrix cannot be 0x0");
 
@@ -22,10 +23,12 @@ namespace omath
         m_data = std::make_unique<float[]>(m_rows * m_columns);
 
         Set(0.f);
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& rows)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         m_rows = rows.size();
         m_columns = rows.begin()->size();
 
@@ -44,10 +47,13 @@ namespace omath
                 At(i, j++) = value;
             ++i;
         }
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     Matrix::Matrix(const Matrix& other)
     {
+        OMATH_SE_PLACE_MACROS(VM_MUTATE_ONLY_START)
+
         m_rows = other.m_rows;
         m_columns = other.m_columns;
 
@@ -56,10 +62,14 @@ namespace omath
         for (size_t i = 0; i < m_rows; ++i)
             for (size_t j = 0; j < m_columns; ++j)
                 At(i, j) = other.At(i, j);
+
+        OMATH_SE_PLACE_MACROS(VM_MUTATE_ONLY_END)
     }
 
     Matrix::Matrix(const size_t rows, const size_t columns, const float* pRaw)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
+
         m_rows = rows;
         m_columns = columns;
 
@@ -68,6 +78,8 @@ namespace omath
 
         for (size_t i = 0; i < rows * columns; ++i)
             At(i / rows, i % columns) = pRaw[i];
+
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     size_t Matrix::RowCount() const noexcept
@@ -77,11 +89,16 @@ namespace omath
     
     float& Matrix::operator[](const size_t row, const size_t column)
     {
-        return At(row, column);
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
+        auto& result = At(row, column);
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
+        return result;
     }
 
     Matrix::Matrix(Matrix&& other) noexcept
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
+
         m_rows = other.m_rows;
         m_columns = other.m_columns;
         m_data = std::move(other.m_data);
@@ -90,6 +107,8 @@ namespace omath
         other.m_columns = 0;
 
         other.m_data = nullptr;
+
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     size_t Matrix::ColumnsCount() const noexcept
@@ -99,7 +118,10 @@ namespace omath
 
     std::pair<size_t, size_t> Matrix::Size() const noexcept
     {
-        return {RowCount(), ColumnsCount()};
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
+        const std::pair result = {RowCount(), ColumnsCount()};
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
+        return result;
     }
 
     float& Matrix::At(const size_t iRow, const size_t iCol)
@@ -109,12 +131,14 @@ namespace omath
 
     float Matrix::Sum()
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         float sum = 0;
 
         for (size_t i = 0; i < RowCount(); i++)
             for (size_t j = 0; j < ColumnsCount(); j++)
                 sum += At(i, j);
 
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return sum;
     }
 
@@ -125,63 +149,83 @@ namespace omath
 
     Matrix Matrix::operator*(const Matrix& other) const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
+
         if (m_columns != other.m_rows)
             throw std::runtime_error("n != m");
 
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         auto outMat = Matrix(m_rows, other.m_columns);
 
         for (size_t d = 0; d < m_rows; ++d)
             for (size_t i = 0; i < other.m_columns; ++i)
                 for (size_t j = 0; j < other.m_rows; ++j)
+                {
+                    OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
                     outMat.At(d, i) += At(d, j) * other.At(j, i);
+                    OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
+                }
 
 
         return outMat;
+
     }
 
     Matrix& Matrix::operator*=(const Matrix& other)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         *this = *this * other;
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return *this;
     }
 
     Matrix Matrix::operator*(const float f) const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         auto out = *this;
         for (size_t i = 0; i < m_rows; ++i)
+        {
             for (size_t j = 0; j < m_columns; ++j)
                 out.At(i, j) *= f;
-
+        }
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return out;
     }
 
     Matrix& Matrix::operator*=(const float f)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         for (size_t i = 0; i < RowCount(); i++)
             for (size_t j = 0; j < ColumnsCount(); j++)
                 At(i, j) *= f;
+
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return *this;
     }
 
     void Matrix::Clear()
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         Set(0.f);
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     Matrix& Matrix::operator=(const Matrix& other)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         if (this == &other)
             return *this;
 
         for (size_t i = 0; i < m_rows; ++i)
             for (size_t j = 0; j < m_columns; ++j)
                 At(i, j) = other.At(i, j);
-
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return *this;
     }
 
     Matrix& Matrix::operator=(Matrix&& other) noexcept
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         if (this == &other)
             return *this;
 
@@ -192,30 +236,34 @@ namespace omath
         other.m_rows = 0;
         other.m_columns = 0;
 
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return *this;
     }
 
     Matrix& Matrix::operator/=(const float f)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         for (size_t i = 0; i < m_rows; ++i)
             for (size_t j = 0; j < m_columns; ++j)
                 At(i, j) /= f;
-
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return *this;
     }
 
     Matrix Matrix::operator/(const float f) const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         auto out = *this;
         for (size_t i = 0; i < m_rows; ++i)
             for (size_t j = 0; j < m_columns; ++j)
                 out.At(i, j) /= f;
-
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return out;
     }
 
     std::string Matrix::ToString() const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         std::string str;
 
         for (size_t i = 0; i < m_rows; i++)
@@ -230,11 +278,13 @@ namespace omath
                     str += ' ';
             }
         }
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return str;
     }
 
     float Matrix::Determinant() const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         if (m_rows + m_columns == 2)
             return At(0, 0);
 
@@ -245,6 +295,7 @@ namespace omath
         for (size_t i = 0; i < m_columns; i++)
             fDet += AlgComplement(0, i) * At(0, i);
 
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return fDet;
     }
 
@@ -269,13 +320,16 @@ namespace omath
 
     void Matrix::Set(const float val)
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         for (size_t i = 0; i < m_rows; ++i)
             for (size_t j = 0; j < m_columns; ++j)
                 At(i, j) = val;
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
     }
 
     Matrix Matrix::Strip(const size_t row, const size_t column) const
     {
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
         Matrix stripped = {m_rows - 1, m_columns - 1};
         size_t iStripRowIndex = 0;
 
@@ -296,7 +350,7 @@ namespace omath
 
             iStripRowIndex++;
         }
-
+        OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         return stripped;
     }
 

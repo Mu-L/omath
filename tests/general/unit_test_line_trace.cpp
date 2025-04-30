@@ -19,7 +19,7 @@ namespace
     // -----------------------------------------------------------------------------
     // Constants & helpers
     // -----------------------------------------------------------------------------
-    constexpr float kTol = 1e-5f;
+    OMATH_CONSTEXPR float kTol = 1e-5f;
 
     bool VecEqual(const Vec3& a, const Vec3& b, float tol = kTol)
     {
@@ -81,8 +81,8 @@ namespace
     // -----------------------------------------------------------------------------
     TEST_F(LineTracerFixture, HitPointCorrect)
     {
-        constexpr Ray ray{{0.3f, 0.3f, -1.f}, {0.3f, 0.3f, 1.f}};
-        constexpr Vec3 expected{0.3f, 0.3f, 0.f};
+        OMATH_CONSTEXPR Ray ray{{0.3f, 0.3f, -1.f}, {0.3f, 0.3f, 1.f}};
+        OMATH_CONSTEXPR Vec3 expected{0.3f, 0.3f, 0.f};
 
         const Vec3 hit = LineTracer::GetRayHitPoint(ray, triangle);
         ASSERT_FALSE(VecEqual(hit, ray.end));
@@ -94,8 +94,8 @@ namespace
     // -----------------------------------------------------------------------------
     TEST_F(LineTracerFixture, DistantTriangleClear)
     {
-        constexpr Ray short_ray{{0.f, 0.f, 0.f}, {0.f, 0.f, 1.f}};
-        constexpr Triangle<Vec3> distant{{1000.f, 1000.f, 1000.f},
+        OMATH_CONSTEXPR Ray short_ray{{0.f, 0.f, 0.f}, {0.f, 0.f, 1.f}};
+        OMATH_CONSTEXPR Triangle<Vec3> distant{{1000.f, 1000.f, 1000.f},
                                          {1001.f, 1000.f, 1000.f},
                                          {1000.f, 1001.f, 1000.f}};
 
@@ -104,17 +104,17 @@ namespace
 
     TEST(LineTracerTraceRayEdge, CantHit)
     {
-        constexpr omath::Triangle<Vector3<float>> triangle{{2, 0, 0}, {2, 2, 0}, {2, 2, 2}};
+        OMATH_CONSTEXPR omath::Triangle<Vector3<float>> triangle{{2, 0, 0}, {2, 2, 0}, {2, 2, 2}};
 
-        constexpr Ray ray{{}, {1.0, 0, 0}, false};
+        OMATH_CONSTEXPR Ray ray{{}, {1.0, 0, 0}, false};
 
         EXPECT_TRUE(omath::collision::LineTracer::CanTraceLine(ray, triangle));
     }
     TEST(LineTracerTraceRayEdge, CanHit)
     {
-        constexpr omath::Triangle<Vector3<float>> triangle{{2, 0, 0}, {2, 2, 0}, {2, 2, 2}};
+        OMATH_CONSTEXPR omath::Triangle<Vector3<float>> triangle{{2, 0, 0}, {2, 2, 0}, {2, 2, 2}};
 
-        constexpr Ray ray{{}, {2.1, 0, 0}, false};
+        OMATH_CONSTEXPR Ray ray{{}, {2.1, 0, 0}, false};
         auto endPoint = omath::collision::LineTracer::GetRayHitPoint(ray, triangle);
         EXPECT_FALSE(omath::collision::LineTracer::CanTraceLine(ray, triangle));
     }

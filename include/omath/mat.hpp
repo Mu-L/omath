@@ -5,11 +5,13 @@
 #include <algorithm>
 #include <array>
 #include <iomanip>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
 #include "omath/vector3.hpp"
-#include <numeric>
+
+#include "compile_definitions.hpp"
 
 
 #ifdef near
@@ -46,18 +48,21 @@ namespace omath
     class Mat final
     {
     public:
-        constexpr Mat() noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat() noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             Clear();
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         }
 
         [[nodiscard]]
-        constexpr static MatStoreType GetStoreOrdering() noexcept
+        consteval static MatStoreType GetStoreOrdering() noexcept
         {
             return StoreType;
         }
-        constexpr Mat(const std::initializer_list<std::initializer_list<Type>>& rows)
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat(const std::initializer_list<std::initializer_list<Type>>& rows)
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             if (rows.size() != Rows)
                 throw std::invalid_argument("Initializer list rows size does not match template parameter Rows");
 
@@ -74,43 +79,50 @@ namespace omath
                     At(i, j) = std::move(*colIt);
                 }
             }
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         }
 
-        constexpr explicit Mat(const Type* rawData)
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE explicit Mat(const Type* rawData)
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             std::copy_n(rawData, Rows * Columns, m_data.begin());
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         }
 
-        constexpr Mat(const Mat& other) noexcept
+        OMATH_CONSTEXPR Mat(const Mat& other) noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             m_data = other.m_data;
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         }
 
         [[nodiscard]]
-        constexpr Type& operator[](const size_t row, const size_t col)
+        OMATH_CONSTEXPR Type& operator[](const size_t row, const size_t col)
         {
             return At(row, col);
         }
 
         [[nodiscard]]
-        constexpr Type& operator[](const size_t row, const size_t col) const
+        OMATH_CONSTEXPR Type& operator[](const size_t row, const size_t col) const
         {
             return At(row, col);
         }
 
-        constexpr Mat(Mat&& other) noexcept
+        OMATH_CONSTEXPR Mat(Mat&& other) noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             m_data = std::move(other.m_data);
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
         }
 
         [[nodiscard]]
-        static constexpr size_t RowCount() noexcept
+        static OMATH_CONSTEXPR size_t RowCount() noexcept
         {
             return Rows;
         }
 
         [[nodiscard]]
-        static constexpr size_t ColumnsCount() noexcept
+        static OMATH_CONSTEXPR size_t ColumnsCount() noexcept
         {
             return Columns;
         }
@@ -122,7 +134,7 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr const Type& At(const size_t rowIndex, const size_t columnIndex) const
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE const Type& At(const size_t rowIndex, const size_t columnIndex) const
         {
 #if !defined(NDEBUG) && defined(OMATH_SUPRESS_SAFETY_CHECKS)
             if (rowIndex >= Rows || columnIndex >= Columns)
@@ -141,23 +153,23 @@ namespace omath
             }
         }
 
-        [[nodiscard]] constexpr Type& At(const size_t rowIndex, const size_t columnIndex)
+        [[nodiscard]] OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Type& At(const size_t rowIndex, const size_t columnIndex)
         {
             return const_cast<Type&>(std::as_const(*this).At(rowIndex, columnIndex));
         }
 
         [[nodiscard]]
-        constexpr Type Sum() const noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Type Sum() const noexcept
         {
             return std::accumulate(m_data.begin(), m_data.end(), Type(0));
         }
 
-        constexpr void Clear() noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE void Clear() noexcept
         {
             Set(0);
         }
 
-        constexpr void Set(const Type& value) noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE void Set(const Type& value) noexcept
         {
             std::ranges::fill(m_data, value);
         }
@@ -165,9 +177,10 @@ namespace omath
         // Operator overloading for multiplication with another Mat
         template<size_t OtherColumns>
         [[nodiscard]]
-        constexpr Mat<Rows, OtherColumns, Type, StoreType>
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat<Rows, OtherColumns, Type, StoreType>
         operator*(const Mat<Columns, OtherColumns, Type, StoreType>& other) const
         {
+
             Mat<Rows, OtherColumns, Type, StoreType> result;
 
             for (size_t i = 0; i < Rows; ++i)
@@ -181,72 +194,78 @@ namespace omath
             return result;
         }
 
-        constexpr Mat& operator*=(const Type& f) noexcept
+        OMATH_CONSTEXPR Mat& operator*=(const Type& f) noexcept
         {
             std::ranges::for_each(m_data, [&f](auto& val) {val *= f;});
             return *this;
         }
 
         template<size_t OtherColumns>
-        constexpr Mat<Rows, OtherColumns, Type, StoreType>
+        OMATH_CONSTEXPR Mat<Rows, OtherColumns, Type, StoreType>
         operator*=(const Mat<Columns, OtherColumns, Type, StoreType>& other)
         {
             return *this = *this * other;
         }
 
         [[nodiscard]]
-        constexpr Mat operator*(const Type& value) const noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat operator*(const Type& value) const noexcept
         {
             Mat result(*this);
             result *= value;
             return result;
         }
 
-        constexpr Mat& operator/=(const Type& value) noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat& operator/=(const Type& value) noexcept
         {
             std::ranges::for_each(m_data, [&value](auto& val) {val /= value;});
             return *this;
         }
 
         [[nodiscard]]
-        constexpr Mat operator/(const Type& value) const noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat operator/(const Type& value) const noexcept
         {
+            //OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             Mat result(*this);
             result /= value;
+            //OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
             return result;
         }
 
-        constexpr Mat& operator=(const Mat& other) noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat& operator=(const Mat& other) noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             if (this != &other)
                 m_data = other.m_data;
-
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
             return *this;
         }
 
-        constexpr Mat& operator=(Mat&& other) noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat& operator=(Mat&& other) noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             if (this != &other)
                 m_data = std::move(other.m_data);
-
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
             return *this;
         }
 
         [[nodiscard]]
-        constexpr Mat<Columns, Rows, Type, StoreType> Transposed() const noexcept
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Mat<Columns, Rows, Type, StoreType> Transposed() const noexcept
         {
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_START)
             Mat<Columns, Rows, Type, StoreType> transposed;
             for (size_t i = 0; i < Rows; ++i)
                 for (size_t j = 0; j < Columns; ++j)
                     transposed.At(j, i) = At(i, j);
 
+            OMATH_SE_PLACE_MACROS(VIRTUALIZER_MUTATE_ONLY_END)
             return transposed;
         }
 
         [[nodiscard]]
-        constexpr Type Determinant() const
+        OMATH_CONSTEXPR OMATH_SE_COMPATIBLE Type Determinant() const
         {
-            static_assert(Rows == Columns, "Determinant is only defined for square matrices.");
+            OMATH_STATIC_ASSERT(Rows == Columns, "Determinant is only defined for square matrices.");
 
             if constexpr (Rows == 1)
                 return At(0, 0);
@@ -268,9 +287,10 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr Mat<Rows - 1, Columns - 1, Type, StoreType> Strip(const size_t row, const size_t column) const
+        OMATH_CONSTEXPR Mat<Rows - 1, Columns - 1, Type, StoreType> Strip(const size_t row, const size_t column) const
         {
-            static_assert(Rows-1 > 0 && Columns-1 > 0);
+            OMATH_STATIC_ASSERT(Rows-1 > 0 && Columns-1 > 0, "");
+
             Mat<Rows - 1, Columns - 1, Type, StoreType> result;
             for (size_t i = 0, m = 0; i < Rows; ++i)
             {
@@ -289,26 +309,26 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr Type Minor(const size_t row, const size_t column) const
+        OMATH_CONSTEXPR Type Minor(const size_t row, const size_t column) const
         {
             return Strip(row, column).Determinant();
         }
 
         [[nodiscard]]
-        constexpr Type AlgComplement(const size_t row, const size_t column) const
+        OMATH_CONSTEXPR Type AlgComplement(const size_t row, const size_t column) const
         {
             const auto minor = Minor(row, column);
             return (row + column + 2) % 2 == 0 ? minor: -minor;
         }
 
         [[nodiscard]]
-        constexpr const std::array<Type, Rows * Columns>& RawArray() const
+        OMATH_CONSTEXPR const std::array<Type, Rows * Columns>& RawArray() const
         {
             return m_data;
         }
 
         [[nodiscard]]
-        constexpr std::array<Type, Rows * Columns>& RawArray()
+        OMATH_CONSTEXPR std::array<Type, Rows * Columns>& RawArray()
         {
             return m_data;
         }
@@ -349,7 +369,7 @@ namespace omath
 
         // Static methods that return fixed-size matrices
         [[nodiscard]]
-        constexpr static Mat<4, 4> ToScreenMat(const Type& screenWidth, const Type& screenHeight) noexcept
+        OMATH_CONSTEXPR static Mat<4, 4> ToScreenMat(const Type& screenWidth, const Type& screenHeight) noexcept
         {
             return {
                     {screenWidth / 2, 0, 0, 0},
@@ -360,7 +380,7 @@ namespace omath
         }
 
         [[nodiscard]]
-        constexpr std::optional<Mat> Inverted() const
+        OMATH_CONSTEXPR std::optional<Mat> Inverted() const
         {
             const auto det = Determinant();
 
@@ -384,21 +404,21 @@ namespace omath
 
     template<class Type = float, MatStoreType St = MatStoreType::ROW_MAJOR>
     [[nodiscard]]
-    constexpr static Mat<1, 4, Type, St> MatRowFromVector(const Vector3<Type>& vector) noexcept
+    OMATH_CONSTEXPR static Mat<1, 4, Type, St> MatRowFromVector(const Vector3<Type>& vector) noexcept
     {
         return {{vector.x, vector.y, vector.z, 1}};
     }
 
     template<class Type = float, MatStoreType St = MatStoreType::ROW_MAJOR>
     [[nodiscard]]
-    constexpr static Mat<4, 1, Type, St> MatColumnFromVector(const Vector3<Type>& vector) noexcept
+    OMATH_CONSTEXPR static Mat<4, 1, Type, St> MatColumnFromVector(const Vector3<Type>& vector) noexcept
     {
         return {{vector.x}, {vector.y}, {vector.z}, {1}};
     }
 
     template<class Type = float, MatStoreType St = MatStoreType::ROW_MAJOR>
     [[nodiscard]]
-    constexpr Mat<4, 4, Type, St> MatTranslation(const Vector3<Type>& diff) noexcept
+    OMATH_CONSTEXPR Mat<4, 4, Type, St> MatTranslation(const Vector3<Type>& diff) noexcept
     {
         return
         {

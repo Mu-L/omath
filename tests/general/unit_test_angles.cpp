@@ -4,24 +4,26 @@
 #include <gtest/gtest.h>
 #include <omath/angles.hpp>
 
+#include "omath/compile_definitions.hpp"
+
 TEST(UnitTestAngles, RadiansToDeg)
 {
-    constexpr float rad = 67;
+    OMATH_CONSTEXPR float rad = 67;
 
     EXPECT_NEAR(omath::angles::RadiansToDegrees(rad), 3838.82f, 0.01f);
 }
 
 TEST(UnitTestAngles, DegreesToRadians)
 {
-    constexpr float degree = 90;
+    OMATH_CONSTEXPR float degree = 90;
 
     EXPECT_NEAR(omath::angles::DegreesToRadians(degree), 1.5708f, 0.01f);
 }
 
 TEST(UnitTestAngles, HorizontalFovToVerical)
 {
-    constexpr float hFov = 90;
-    constexpr float aspectRation = 16.0f / 9.0f;
+    OMATH_CONSTEXPR float hFov = 90;
+    OMATH_CONSTEXPR float aspectRation = 16.0f / 9.0f;
     const auto verticalFov = omath::angles::HorizontalFovToVertical(hFov, aspectRation);
 
     EXPECT_NEAR(verticalFov, 58.71f, 0.01f);
@@ -29,8 +31,8 @@ TEST(UnitTestAngles, HorizontalFovToVerical)
 
 TEST(UnitTestAngles, VerticalToHorizontal)
 {
-    constexpr float vFov = 58.71;
-    constexpr float aspectRation = 16.0f / 9.0f;
+    OMATH_CONSTEXPR float vFov = 58.71;
+    OMATH_CONSTEXPR float aspectRation = 16.0f / 9.0f;
     const auto horizontalFov = omath::angles::VerticalFovToHorizontal(vFov, aspectRation);
 
     EXPECT_NEAR(horizontalFov, 89.99f, 0.01f);

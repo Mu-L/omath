@@ -19,7 +19,7 @@ namespace omath::projection
         float m_width;
         float m_height;
 
-        [[nodiscard]] constexpr float AspectRatio() const
+        [[nodiscard]] OMATH_CONSTEXPR float AspectRatio() const
         {
             return m_width / m_height;
         }
@@ -163,7 +163,7 @@ namespace omath::projection
     private:
         template<class Type>
         [[nodiscard]]
-        constexpr static bool IsNdcOutOfBounds(const Type& ndc)
+        OMATH_CONSTEXPR static bool IsNdcOutOfBounds(const Type& ndc)
         {
             return std::ranges::any_of(ndc.RawArray(), [](const auto& val) { return val < -1 || val > 1; });
         }

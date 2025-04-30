@@ -65,7 +65,7 @@ TEST(UnitTestUnityEngine, UpVector)
 
 TEST(UnitTestUnityEngine, ProjectTargetMovedFromCamera)
 {
-    constexpr auto fov = omath::projection::FieldOfView::FromDegrees(60.f);
+    OMATH_CONSTEXPR auto fov = omath::projection::FieldOfView::FromDegrees(60.f);
     const auto cam = omath::unity_engine::Camera({0, 0, 0}, {}, {1280.f, 720.f}, fov, 0.01f, 1000.f);
 
 
@@ -84,7 +84,7 @@ TEST(UnitTestUnityEngine, ProjectTargetMovedFromCamera)
 }
 TEST(UnitTestUnityEngine, Project)
 {
-    constexpr auto fov = omath::projection::FieldOfView::FromDegrees(60.f);
+    OMATH_CONSTEXPR auto fov = omath::projection::FieldOfView::FromDegrees(60.f);
 
     const auto cam = omath::unity_engine::Camera({0, 0, 0}, {}, {1280.f, 720.f}, fov, 0.03f, 1000.f);
     const auto proj = cam.WorldToScreen({5.f, 3, 10.f});
@@ -93,7 +93,7 @@ TEST(UnitTestUnityEngine, Project)
 
 TEST(UnitTestUnityEngine, CameraSetAndGetFov)
 {
-    constexpr auto fov = omath::projection::FieldOfView::FromDegrees(90.f);
+    OMATH_CONSTEXPR auto fov = omath::projection::FieldOfView::FromDegrees(90.f);
     auto cam = omath::unity_engine::Camera({0, 0, 0}, {}, {1920.f, 1080.f}, fov, 0.01f, 1000.f);
 
     EXPECT_EQ(cam.GetFieldOfView().AsDegrees(), 90.f);

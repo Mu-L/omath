@@ -31,7 +31,7 @@ TEST_F(UnitTestMat, Constructor_Default)
 
 TEST_F(UnitTestMat, Constructor_InitializerList)
 {
-    constexpr Mat<2, 2> m{{1.0f, 2.0f}, {3.0f, 4.0f}};
+    OMATH_CONSTEXPR Mat<2, 2> m{{1.0f, 2.0f}, {3.0f, 4.0f}};
     EXPECT_EQ(m.RowCount(), 2);
     EXPECT_EQ(m.ColumnsCount(), 2);
     EXPECT_FLOAT_EQ(m.At(0, 0), 1.0f);
@@ -175,14 +175,14 @@ TEST_F(UnitTestMat, Method_At_OutOfRange)
 // Test Determinant for 3x3 matrix
 TEST(UnitTestMatStandalone, Determinant_3x3)
 {
-    constexpr auto det = Mat<3, 3>{{6, 1, 1}, {4, -2, 5}, {2, 8, 7}}.Determinant();
+    OMATH_CONSTEXPR auto det = Mat<3, 3>{{6, 1, 1}, {4, -2, 5}, {2, 8, 7}}.Determinant();
     EXPECT_FLOAT_EQ(det, -306.0f);
 }
 
 // Test Minor for 3x3 matrix
 TEST(UnitTestMatStandalone, Strip_3x3)
 {
-    constexpr Mat<3, 3> m{{3, 0, 2}, {2, 0, -2}, {0, 1, 1}};
+    OMATH_CONSTEXPR Mat<3, 3> m{{3, 0, 2}, {2, 0, -2}, {0, 1, 1}};
     auto minor = m.Strip(0, 0);
     EXPECT_EQ(minor.RowCount(), 2);
     EXPECT_EQ(minor.ColumnsCount(), 2);
@@ -195,7 +195,7 @@ TEST(UnitTestMatStandalone, Strip_3x3)
 // Test Transpose for non-square matrix
 TEST(UnitTestMatStandalone, Transpose_NonSquare)
 {
-    constexpr Mat<2, 3> m{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}};
+    OMATH_CONSTEXPR Mat<2, 3> m{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}};
     auto transposed = m.Transposed();
     EXPECT_EQ(transposed.RowCount(), 3);
     EXPECT_EQ(transposed.ColumnsCount(), 2);
@@ -205,12 +205,13 @@ TEST(UnitTestMatStandalone, Transpose_NonSquare)
     EXPECT_FLOAT_EQ(transposed.At(0, 1), 4.0f);
     EXPECT_FLOAT_EQ(transposed.At(1, 1), 5.0f);
     EXPECT_FLOAT_EQ(transposed.At(2, 1), 6.0f);
+
 }
 
 TEST(UnitTestMatStandalone, Enverse)
 {
-    constexpr Mat<2, 2> m{{1.0f, 3.0f}, {2.0f, 5.0f}};
-    constexpr Mat<2,2> mv{{-5.0f, 3.0f}, {2.0f, -1.0f}};
+    OMATH_CONSTEXPR Mat<2, 2> m{{1.0f, 3.0f}, {2.0f, 5.0f}};
+    OMATH_CONSTEXPR Mat<2,2> mv{{-5.0f, 3.0f}, {2.0f, -1.0f}};
 
     EXPECT_EQ(mv, m.Inverted());
 }

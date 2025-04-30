@@ -9,7 +9,7 @@
 #ifdef OMATH_IMGUI_INTEGRATION
 #include <imgui.h>
 #endif
-
+#include "omath/compile_definitions.hpp"
 
 namespace omath
 {
@@ -31,27 +31,28 @@ namespace omath
 
         // Equality operators
         [[nodiscard]]
-        constexpr bool operator==(const Vector2& src) const
+        OMATH_CONSTEXPR bool operator==(const Vector2& src) const
         {
             return x == src.x && y == src.y;
         }
 
         [[nodiscard]]
-        constexpr bool operator!=(const Vector2& src) const
+        OMATH_CONSTEXPR bool operator!=(const Vector2& src) const
         {
             return !(*this == src);
         }
 
         // Compound assignment operators
-        constexpr Vector2& operator+=(const Vector2& v)
+        OMATH_CONSTEXPR Vector2& operator+=(const Vector2& v)
         {
+
             x += v.x;
             y += v.y;
 
             return *this;
         }
 
-        constexpr Vector2& operator-=(const Vector2& v)
+        OMATH_CONSTEXPR Vector2& operator-=(const Vector2& v)
         {
             x -= v.x;
             y -= v.y;
@@ -59,7 +60,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator*=(const Vector2& v)
+        OMATH_CONSTEXPR Vector2& operator*=(const Vector2& v)
         {
             x *= v.x;
             y *= v.y;
@@ -67,7 +68,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator/=(const Vector2& v)
+        OMATH_CONSTEXPR Vector2& operator/=(const Vector2& v)
         {
             x /= v.x;
             y /= v.y;
@@ -75,7 +76,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator*=(const Type& fl)
+        OMATH_CONSTEXPR Vector2& operator*=(const Type& fl)
         {
             x *= fl;
             y *= fl;
@@ -83,7 +84,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator/=(const Type& fl)
+        OMATH_CONSTEXPR Vector2& operator/=(const Type& fl)
         {
             x /= fl;
             y /= fl;
@@ -91,7 +92,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator+=(const Type& fl)
+        OMATH_CONSTEXPR Vector2& operator+=(const Type& fl)
         {
             x += fl;
             y += fl;
@@ -99,7 +100,7 @@ namespace omath
             return *this;
         }
 
-        constexpr Vector2& operator-=(const Type& fl)
+        OMATH_CONSTEXPR Vector2& operator-=(const Type& fl)
         {
             x -= fl;
             y -= fl;
@@ -113,23 +114,23 @@ namespace omath
             return std::sqrt(DistToSqr(vOther));
         }
 
-        [[nodiscard]] constexpr Type DistToSqr(const Vector2& vOther) const
+        [[nodiscard]] OMATH_CONSTEXPR Type DistToSqr(const Vector2& vOther) const
         {
             return (x - vOther.x) * (x - vOther.x) + (y - vOther.y) * (y - vOther.y);
         }
 
-        [[nodiscard]] constexpr Type Dot(const Vector2& vOther) const
+        [[nodiscard]] OMATH_CONSTEXPR Type Dot(const Vector2& vOther) const
         {
             return x * vOther.x + y * vOther.y;
         }
 
 #ifndef _MSC_VER
-        [[nodiscard]] constexpr Type Length() const
+        [[nodiscard]] OMATH_CONSTEXPR Type Length() const
         {
             return std::hypot(this->x, this->y);
         }
 
-        [[nodiscard]] constexpr Vector2 Normalized() const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 Normalized() const
         {
             const Type len = Length();
             return len > 0.f ? *this / len : *this;
@@ -146,53 +147,53 @@ namespace omath
             return len > 0.f ? *this / len : *this;
         }
 #endif
-        [[nodiscard]] constexpr Type LengthSqr() const
+        [[nodiscard]] OMATH_CONSTEXPR Type LengthSqr() const
         {
             return x * x + y * y;
         }
 
-        constexpr Vector2& Abs()
+        OMATH_CONSTEXPR Vector2& Abs()
         {
-            // FIXME: Replace with std::abs, if it will become constexprable
+            // FIXME: Replace with std::abs, if it will become OMATH_CONSTEXPRable
             x = x < 0 ? -x : x;
             y = y < 0 ? -y : y;
             return *this;
         }
 
-        [[nodiscard]] constexpr Vector2 operator-() const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 operator-() const
         {
             return {-x, -y};
         }
 
         // Binary arithmetic operators
-        [[nodiscard]] constexpr Vector2 operator+(const Vector2& v) const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 operator+(const Vector2& v) const
         {
             return {x + v.x, y + v.y};
         }
 
-        [[nodiscard]] constexpr Vector2 operator-(const Vector2& v) const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 operator-(const Vector2& v) const
         {
             return {x - v.x, y - v.y};
         }
 
-        [[nodiscard]] constexpr Vector2 operator*(const float fl) const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 operator*(const float fl) const
         {
             return {x * fl, y * fl};
         }
 
-        [[nodiscard]] constexpr Vector2 operator/(const float fl) const
+        [[nodiscard]] OMATH_CONSTEXPR Vector2 operator/(const float fl) const
         {
             return {x / fl, y / fl};
         }
 
         // Sum of elements
-        [[nodiscard]] constexpr Type Sum() const
+        [[nodiscard]] OMATH_CONSTEXPR Type Sum() const
         {
             return x + y;
         }
 
         [[nodiscard]]
-        constexpr std::tuple<Type, Type> AsTuple() const
+        OMATH_CONSTEXPR std::tuple<Type, Type> AsTuple() const
         {
             return std::make_tuple(x, y);
         }

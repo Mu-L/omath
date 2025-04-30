@@ -17,7 +17,7 @@ protected:
     Triangle<Vector3<float>> t2;
     Triangle<Vector3<float>> t3;
 
-    constexpr void SetUp() override
+    OMATH_CONSTEXPR void SetUp() override
     {
         // Triangle with vertices (0, 0, 0), (1, 0, 0), (0, 1, 0)
         t1 = Triangle<Vector3<float>>(
@@ -45,7 +45,7 @@ protected:
 // Test constructor and vertices
 TEST_F(UnitTestTriangle, Constructor)
 {
-    constexpr Triangle<Vector3<float>> t(
+    OMATH_CONSTEXPR Triangle<Vector3<float>> t(
         Vector3(1.0f, 2.0f, 3.0f),
         Vector3(4.0f, 5.0f, 6.0f),
         Vector3(7.0f, 8.0f, 9.0f)
